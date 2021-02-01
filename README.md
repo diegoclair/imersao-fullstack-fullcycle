@@ -1,8 +1,8 @@
-![Imersão Full Stack && Full Cycle](https://events-fullcycle.s3.amazonaws.com/events-fullcycle/static/site/img/grupo_4417.png)
+![Imersão Full Stack && Full Cycle](./codepix/.github/logo.png)
 
 Participe gratuitamente: https://imersao.fullcycle.com.br/
 
 ## Sobre o repositório
-Esse repositório contém todo código utilizado durante as aulas para referência.
+Esse repositório contém todo código utilizado durante as aulas da imersão para referência.
 
-Faça seu fork e também nos dê uma estrelinha para nos ajudar a divulgar o projeto.
+Repositório de referência: https://github.com/codeedu/imersao-fullstack-fullcycle
