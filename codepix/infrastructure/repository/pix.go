@@ -12,7 +12,7 @@ type PixKeyReposirotyDB struct {
 	DB *gorm.DB
 }
 
-func (r PixKeyReposirotyDB) AddPixKey(pixKey *model.PixKey) (*model.PixKey, error) {
+func (r PixKeyReposirotyDB) AddPixKey(pixKey *model.Pix) (*model.Pix, error) {
 	err := r.DB.Create(pixKey).Error
 	if err != nil {
 		return nil, err
@@ -20,8 +20,8 @@ func (r PixKeyReposirotyDB) AddPixKey(pixKey *model.PixKey) (*model.PixKey, erro
 	return pixKey, nil
 }
 
-func (r PixKeyReposirotyDB) FindKeyByID(key, kind string) (*model.PixKey, error) {
-	var pixKey model.PixKey
+func (r PixKeyReposirotyDB) FindKeyByID(key, kind string) (*model.Pix, error) {
+	var pixKey model.Pix
 
 	r.DB.Preload("Account.Bank").First(&pixKey, "kind = ? and key = ?", kind, key)
 	if pixKey.ID == "" {

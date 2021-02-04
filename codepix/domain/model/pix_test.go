@@ -17,19 +17,19 @@ func TestModel_NewPixKey(t *testing.T) {
 	ownerName := "Wesley"
 	account, _ := model.NewAccount(bank, accountNumber, ownerName)
 
-	kind := model.PixKeyKindEmail
+	kind := model.PixKindEmail
 	key := "j@j.com"
-	pixKey, err := model.NewPixKey(kind, account, key)
+	pix, err := model.NewPix(kind, account, key)
 
-	require.NotEmpty(t, uuid.FromStringOrNil(pixKey.ID))
-	require.Equal(t, pixKey.Kind, kind)
-	require.Equal(t, pixKey.Status, "active")
+	require.NotEmpty(t, uuid.FromStringOrNil(pix.ID))
+	require.Equal(t, pix.Kind, kind)
+	require.Equal(t, pix.Status, "active")
 
-	kind = model.PixKeyKindCPF
+	kind = model.PixKindCPF
 	key = "01234567890"
-	_, err = model.NewPixKey(kind, account, key)
+	_, err = model.NewPix(kind, account, key)
 	require.Nil(t, err)
 
-	_, err = model.NewPixKey("nome", account, key)
+	_, err = model.NewPix("nome", account, key)
 	require.NotNil(t, err)
 }

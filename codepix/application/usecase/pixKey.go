@@ -4,24 +4,24 @@ import "github.com/diegoclair/imersao-fullstack-fullcycle/domain/model"
 
 // pixUseCase is the repository implementation
 type pixUseCase struct {
-	pixKeyRepository  model.PixKeyRepositoryInterface
+	pixRepository     model.PixRepositoryInterface
 	accountRepository model.AccountRepositoryInterface
 }
 
-func (a *pixUseCase) RegisterKey(key, kind, accountID string) (*model.PixKey, error) {
+func (a *pixUseCase) RegisterKey(key, kind, accountID string) (*model.Pix, error) {
 	account, err := a.accountRepository.FindAccountByID(accountID)
 	if err != nil {
 		return nil, err
 	}
 
-	pixKey, err := model.NewPixKey(kind, account, key)
+	pix, err := model.NewPix(kind, account, key)
 	if err != nil {
 		return nil, err
 	}
 
-	return a.pixKeyRepository.AddPixKey(pixKey)
+	return a.pixRepository.AddPixKey(pix)
 }
 
-func (a *pixUseCase) FindKeyByID(key, kind string) (*model.PixKey, error) {
-	return a.pixKeyRepository.FindKeyByID(key, kind)
+func (a *pixUseCase) FindKeyByID(key, kind string) (*model.Pix, error) {
+	return a.pixRepository.FindKeyByID(key, kind)
 }

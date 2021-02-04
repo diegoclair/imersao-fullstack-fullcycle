@@ -9,7 +9,7 @@ import (
 type transactionUseCase struct {
 	transactionRepository model.TransactionRepositoryInterface
 	accountRepository     model.AccountRepositoryInterface
-	pixKeyRepository      model.PixKeyRepositoryInterface
+	pixRepository         model.PixRepositoryInterface
 }
 
 func (a *transactionUseCase) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description string, amount float64) (*model.Transaction, error) {
@@ -19,7 +19,7 @@ func (a *transactionUseCase) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, des
 		return nil, err
 	}
 
-	pixKey, err := a.pixKeyRepository.FindKeyByID(pixKeyTo, pixKeyKindTo)
+	pixKey, err := a.pixRepository.FindKeyByID(pixKeyTo, pixKeyKindTo)
 	if err != nil {
 		return nil, err
 	}

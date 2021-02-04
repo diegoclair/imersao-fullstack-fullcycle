@@ -48,7 +48,7 @@ func ConnectDB(env string) *gorm.DB {
 	}
 
 	if os.Getenv("AutoMigrationDB") == "true" {
-		db.AutoMigrate(&model.Bank{}, &model.Account{}, &model.PixKey{}, &model.Transaction{})
+		db.AutoMigrate(&model.Bank{}, &model.Account{}, &model.Pix{}, &model.Transaction{})
 	}
 
 	return db
