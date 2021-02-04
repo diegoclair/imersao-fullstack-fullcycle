@@ -6,13 +6,13 @@ import (
 	"github.com/diegoclair/imersao-fullstack-fullcycle/domain/model"
 )
 
-type transactionUseCase struct {
+type TransactionUseCase struct {
 	transactionRepository model.TransactionRepositoryInterface
 	accountRepository     model.AccountRepositoryInterface
 	pixRepository         model.PixRepositoryInterface
 }
 
-func (a *transactionUseCase) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description string, amount float64) (*model.Transaction, error) {
+func (a *TransactionUseCase) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description string, amount float64) (*model.Transaction, error) {
 
 	account, err := a.accountRepository.FindAccountByID(accountIDFrom)
 	if err != nil {
@@ -37,7 +37,7 @@ func (a *transactionUseCase) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, des
 	return transaction, nil
 }
 
-func (a *transactionUseCase) Confirm(transactionID string) (*model.Transaction, error) {
+func (a *TransactionUseCase) Confirm(transactionID string) (*model.Transaction, error) {
 
 	transaction, err := a.transactionRepository.FindByID(transactionID)
 	if err != nil {
@@ -60,7 +60,7 @@ func (a *transactionUseCase) Confirm(transactionID string) (*model.Transaction, 
 	return transaction, nil
 }
 
-func (a *transactionUseCase) Complete(transactionID string) (*model.Transaction, error) {
+func (a *TransactionUseCase) Complete(transactionID string) (*model.Transaction, error) {
 
 	transaction, err := a.transactionRepository.FindByID(transactionID)
 	if err != nil {
@@ -83,7 +83,7 @@ func (a *transactionUseCase) Complete(transactionID string) (*model.Transaction,
 	return transaction, nil
 }
 
-func (a *transactionUseCase) Error(transactionID, reason string) (*model.Transaction, error) {
+func (a *TransactionUseCase) Error(transactionID, reason string) (*model.Transaction, error) {
 
 	transaction, err := a.transactionRepository.FindByID(transactionID)
 	if err != nil {

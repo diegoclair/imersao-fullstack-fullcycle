@@ -7,16 +7,16 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// accountReposirotyDB repository
-type accountReposirotyDB struct {
+// AccountReposirotyDB repository
+type AccountReposirotyDB struct {
 	DB *gorm.DB
 }
 
-func (r accountReposirotyDB) AddAccount(account *model.Account) error {
+func (r AccountReposirotyDB) AddAccount(account *model.Account) error {
 	return r.DB.Create(account).Error
 }
 
-func (r accountReposirotyDB) FindAccountByID(id string) (*model.Account, error) {
+func (r AccountReposirotyDB) FindAccountByID(id string) (*model.Account, error) {
 	var account model.Account
 
 	r.DB.Preload("Bank").First(&account, "id = ?", id)

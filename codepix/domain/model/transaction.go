@@ -8,6 +8,10 @@ import (
 	"github.com/twinj/uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 //Transaction Standard values
 const (
 	TransactionPending   string = "pending"

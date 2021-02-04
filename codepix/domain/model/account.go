@@ -7,6 +7,10 @@ import (
 	"github.com/twinj/uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 //AccountRepositoryInterface is the interface for AccountModel
 type AccountRepositoryInterface interface {
 	AddAccount(account *Account) error

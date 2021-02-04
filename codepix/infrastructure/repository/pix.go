@@ -21,11 +21,11 @@ func (r PixKeyReposirotyDB) AddPixKey(pixKey *model.Pix) (*model.Pix, error) {
 }
 
 func (r PixKeyReposirotyDB) FindKeyByID(key, kind string) (*model.Pix, error) {
-	var pixKey model.Pix
+	var pix model.Pix
 
-	r.DB.Preload("Account.Bank").First(&pixKey, "kind = ? and key = ?", kind, key)
-	if pixKey.ID == "" {
+	r.DB.Preload("Account.Bank").First(&pix, "kind = ? and key = ?", kind, key)
+	if pix.ID == "" {
 		return nil, fmt.Errorf("no key was found")
 	}
-	return &pixKey, nil
+	return &pix, nil
 }

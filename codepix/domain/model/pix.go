@@ -9,6 +9,10 @@ import (
 	"github.com/twinj/uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 // Pix kind values
 const (
 	PixKindEmail string = "email"

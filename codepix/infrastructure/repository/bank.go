@@ -7,18 +7,16 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// 	AddBank(bank *Bank) error
-
-// bankReposirotyDB repository
-type bankReposirotyDB struct {
+// BankReposirotyDB repository
+type BankReposirotyDB struct {
 	DB *gorm.DB
 }
 
-func (r bankReposirotyDB) AddBank(bank *model.Bank) error {
+func (r BankReposirotyDB) AddBank(bank *model.Bank) error {
 	return r.DB.Create(bank).Error
 }
 
-func (r bankReposirotyDB) FindBankByID(id string) (*model.Bank, error) {
+func (r BankReposirotyDB) FindBankByID(id string) (*model.Bank, error) {
 	var bank model.Bank
 
 	r.DB.First(&bank, "id = ?", id)
