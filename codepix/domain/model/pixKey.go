@@ -21,10 +21,10 @@ const (
 	PixKeyStatusInactive string = "inactive"
 )
 
-//PixKeyRepository is the interface for PixKeyModel
-type PixKeyRepository interface {
+//PixKeyRepositoryInterface is the interface for PixKeyModel
+type PixKeyRepositoryInterface interface {
 	AddPixKey(pixKey *PixKey) (*PixKey, error)
-	FindKeyByType(key, kind string) (*PixKey, error)
+	FindKeyByID(key, kind string) (*PixKey, error)
 }
 
 //PixKey entity model
@@ -32,7 +32,7 @@ type PixKey struct {
 	Base      `valid:"required"`
 	Kind      string   `json:"kind" valid:"notnull"`
 	Key       string   `json:"key"  valid:"notnull"`
-	AccountID string   `json:"account_id"  valid:"notnull"`
+	AccountID string   `gorm:"column:account_id;type:uuid;not null" valid:"-"`
 	Account   *Account `json:"account"  valid:"-"`
 	Status    string   `json:"status"  valid:"notnull"`
 }

@@ -12,13 +12,13 @@ import (
 const (
 	TransactionPending   string = "pending"
 	TransactionCompleted string = "completed"
-	TransactionError     string = "errpr"
+	TransactionError     string = "error"
 	TransactionConfirmed string = "confirmed"
 )
 
-//TransactionRepository is the interface for TransactionModel
-type TransactionRepository interface {
-	RegisterTransaction(transaction *Transaction) error
+//TransactionRepositoryInterface is the interface for TransactionModel
+type TransactionRepositoryInterface interface {
+	Register(transaction *Transaction) error
 	Save(transaction *Transaction) error
 	FindByID(id string) (*Transaction, error)
 }
@@ -27,11 +27,13 @@ type TransactionRepository interface {
 type Transaction struct {
 	Base              `valid:"required"`
 	AccountFrom       *Account `valid:"-"`
-	Amount            float64  `json:"amount" valid:"notnull"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
+	Amount            float64  `json:"amount" gorm:"type:float" valid:"notnull"`
 	PixKeyTo          *PixKey  `valid:"-"`
-	Status            string   `json:"status" valid:"notnull"`
-	Description       string   `json:"description" valid:"notnull"`
-	CancelDescription string   `json:"cancel_description" valid:"-"`
+	PixKeyToID        string   `gorm:"column:pix_key_to_id;type:uuid;" valid:"notnull"`
+	Status            string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
+	Description       string   `json:"description" gorm:"type:varchar(255)" valid:"notnull"`
+	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
 }
 
 func (t *Transaction) isValid() error {
@@ -89,9 +91,9 @@ func (t *Transaction) Complete() error {
 }
 
 //Cancel to set canceled to transaction status
-func (t *Transaction) Cancel(description string) error {
-	t.Description = description
-	return t.setStatus(TransactionCompleted)
+func (t *Transaction) Cancel(reason string) error {
+	t.CancelDescription = reason
+	return t.setStatus(TransactionError)
 }
 
 func (t *Transaction) setStatus(status string) error {

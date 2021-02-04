@@ -11,17 +11,18 @@ func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
-//BankRepository is the interface for BankModel
-type BankRepository interface {
+//BankRepositoryInterface is the interface for BankModel
+type BankRepositoryInterface interface {
 	AddBank(bank *Bank) error
+	FindBankByID(id string) (*Bank, error)
 }
 
 //Bank entity model
 type Bank struct {
 	Base     `valid:"required"`
-	Code     string     `json:"code,omitempty" valid:"notnull"`
-	Name     string     `json:"name,omitempty" valid:"notnull"`
-	Accounts *[]Account `valid:"-"`
+	Code     string     `json:"code" gorm:"type:varchar(20)" valid:"notnull"`
+	Name     string     `json:"name" gorm:"type:varchar(255)" valid:"notnull"`
+	Accounts *[]Account `gorm:"ForeignKey:BankID" valid:"-"`
 }
 
 func (bank *Bank) isValid() error {
