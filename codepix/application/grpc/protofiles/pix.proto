@@ -6,7 +6,7 @@ option go_package = "protofiles;pb";
 
 service PixService {
     rpc AddPixKey(AddPixKeyRequest) returns (AddPixKeyResponse) {};
-    rpc FindByID (FindByIDRequest) returns (FindByIDResponse){};
+    rpc FindPixKeyByID (FindPixKeyByIDRequest) returns (FindPixKeyByIDResponse){};
 }
 
 message AddPixKeyRequest {
@@ -15,7 +15,7 @@ message AddPixKeyRequest {
     string accountID = 3; 
 }
 
-message FindByIDRequest {
+message FindPixKeyByIDRequest {
     string kind = 1;
     string key = 2;
 }
@@ -29,7 +29,7 @@ message Account {
     string createdAt = 6;
 }
 
-message FindByIDResponse {
+message FindPixKeyByIDResponse {
     string id = 1;
     string kind = 2;
     string key = 3;

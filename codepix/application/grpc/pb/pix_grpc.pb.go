@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PixServiceClient interface {
 	AddPixKey(ctx context.Context, in *AddPixKeyRequest, opts ...grpc.CallOption) (*AddPixKeyResponse, error)
-	FindByID(ctx context.Context, in *FindByIDRequest, opts ...grpc.CallOption) (*FindByIDResponse, error)
+	FindPixKeyByID(ctx context.Context, in *FindPixKeyByIDRequest, opts ...grpc.CallOption) (*FindPixKeyByIDResponse, error)
 }
 
 type pixServiceClient struct {
@@ -39,9 +39,9 @@ func (c *pixServiceClient) AddPixKey(ctx context.Context, in *AddPixKeyRequest, 
 	return out, nil
 }
 
-func (c *pixServiceClient) FindByID(ctx context.Context, in *FindByIDRequest, opts ...grpc.CallOption) (*FindByIDResponse, error) {
-	out := new(FindByIDResponse)
-	err := c.cc.Invoke(ctx, "/github.com.diegoclair.codepix.PixService/FindByID", in, out, opts...)
+func (c *pixServiceClient) FindPixKeyByID(ctx context.Context, in *FindPixKeyByIDRequest, opts ...grpc.CallOption) (*FindPixKeyByIDResponse, error) {
+	out := new(FindPixKeyByIDResponse)
+	err := c.cc.Invoke(ctx, "/github.com.diegoclair.codepix.PixService/FindPixKeyByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *pixServiceClient) FindByID(ctx context.Context, in *FindByIDRequest, op
 // for forward compatibility
 type PixServiceServer interface {
 	AddPixKey(context.Context, *AddPixKeyRequest) (*AddPixKeyResponse, error)
-	FindByID(context.Context, *FindByIDRequest) (*FindByIDResponse, error)
+	FindPixKeyByID(context.Context, *FindPixKeyByIDRequest) (*FindPixKeyByIDResponse, error)
 	mustEmbedUnimplementedPixServiceServer()
 }
 
@@ -64,8 +64,8 @@ type UnimplementedPixServiceServer struct {
 func (UnimplementedPixServiceServer) AddPixKey(context.Context, *AddPixKeyRequest) (*AddPixKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPixKey not implemented")
 }
-func (UnimplementedPixServiceServer) FindByID(context.Context, *FindByIDRequest) (*FindByIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByID not implemented")
+func (UnimplementedPixServiceServer) FindPixKeyByID(context.Context, *FindPixKeyByIDRequest) (*FindPixKeyByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindPixKeyByID not implemented")
 }
 func (UnimplementedPixServiceServer) mustEmbedUnimplementedPixServiceServer() {}
 
@@ -98,20 +98,20 @@ func _PixService_AddPixKey_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PixService_FindByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindByIDRequest)
+func _PixService_FindPixKeyByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindPixKeyByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PixServiceServer).FindByID(ctx, in)
+		return srv.(PixServiceServer).FindPixKeyByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/github.com.diegoclair.codepix.PixService/FindByID",
+		FullMethod: "/github.com.diegoclair.codepix.PixService/FindPixKeyByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PixServiceServer).FindByID(ctx, req.(*FindByIDRequest))
+		return srv.(PixServiceServer).FindPixKeyByID(ctx, req.(*FindPixKeyByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -128,8 +128,8 @@ var PixService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PixService_AddPixKey_Handler,
 		},
 		{
-			MethodName: "FindByID",
-			Handler:    _PixService_FindByID_Handler,
+			MethodName: "FindPixKeyByID",
+			Handler:    _PixService_FindPixKeyByID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
