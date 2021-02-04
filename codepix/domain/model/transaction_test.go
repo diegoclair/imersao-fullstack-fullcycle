@@ -3,9 +3,8 @@ package model_test
 import (
 	"testing"
 
+	"github.com/diegoclair/imersao-fullstack-fullcycle/domain/model"
 	uuid "github.com/satori/go.uuid"
-
-	"github.com/codeedu/imersao/codepix-go/domain/model"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,13 +23,13 @@ func TestNewTransaction(t *testing.T) {
 
 	kind := "email"
 	key := "j@j.com"
-	pixKey, _ := model.NewPixKey(kind, accountDestination, key)
+	pix, _ := model.NewPix(kind, accountDestination, key)
 
 	require.NotEqual(t, account.ID, accountDestination.ID)
 
 	amount := 3.10
 	statusTransaction := "pending"
-	transaction, err := model.NewTransaction(account, amount, pixKey, "My description")
+	transaction, err := model.NewTransaction(account, amount, pix, "My description")
 	//
 	require.Nil(t, err)
 	require.NotNil(t, uuid.FromStringOrNil(transaction.ID))
@@ -39,12 +38,12 @@ func TestNewTransaction(t *testing.T) {
 	require.Equal(t, transaction.Description, "My description")
 	require.Empty(t, transaction.CancelDescription)
 
-	pixKeySameAccount, err := model.NewPixKey(kind, account, key)
+	pixSameAccount, err := model.NewPix(kind, account, key)
 
-	_, err = model.NewTransaction(account, amount, pixKeySameAccount, "My description")
+	_, err = model.NewTransaction(account, amount, pixSameAccount, "My description")
 	require.NotNil(t, err)
 
-	_, err = model.NewTransaction(account, 0, pixKey, "My description")
+	_, err = model.NewTransaction(account, 0, pix, "My description")
 	require.NotNil(t, err)
 
 }
@@ -64,10 +63,10 @@ func TestModel_ChangeStatusOfATransaction(t *testing.T) {
 
 	kind := "email"
 	key := "j@j.com"
-	pixKey, _ := model.NewPixKey(kind, accountDestination, key)
+	pix, _ := model.NewPix(kind, accountDestination, key)
 
 	amount := 3.10
-	transaction, _ := model.NewTransaction(account, amount, pixKey, "My description")
+	transaction, _ := model.NewTransaction(account, amount, pix, "My description")
 
 	transaction.Complete()
 	require.Equal(t, transaction.Status, model.TransactionCompleted)
@@ -75,6 +74,4 @@ func TestModel_ChangeStatusOfATransaction(t *testing.T) {
 	transaction.Cancel("Error")
 	require.Equal(t, transaction.Status, model.TransactionError)
 	require.Equal(t, transaction.CancelDescription, "Error")
-
-
 }

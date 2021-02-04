@@ -1,16 +1,28 @@
 package model
 
 import (
-	"github.com/asaskevich/govalidator"
-	uuid "github.com/satori/go.uuid"
 	"time"
+
+	"github.com/asaskevich/govalidator"
+	"github.com/twinj/uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
+//BankRepositoryInterface is the interface for BankModel
+type BankRepositoryInterface interface {
+	AddBank(bank *Bank) error
+	FindBankByID(id string) (*Bank, error)
+}
+
+//Bank entity model
 type Bank struct {
 	Base     `valid:"required"`
-	Code     string     `json:"code" valid:"notnull"`
-	Name     string     `json:"name" valid:"notnull"`
-	Accounts []*Account `valid:"-"`
+	Code     string     `json:"code" gorm:"type:varchar(20)" valid:"notnull"`
+	Name     string     `json:"name" gorm:"type:varchar(255)" valid:"notnull"`
+	Accounts *[]Account `gorm:"ForeignKey:BankID" valid:"-"`
 }
 
 func (bank *Bank) isValid() error {
@@ -21,6 +33,7 @@ func (bank *Bank) isValid() error {
 	return nil
 }
 
+//NewBank return a new Bank model
 func NewBank(code string, name string) (*Bank, error) {
 	bank := Bank{
 		Code: code,
@@ -34,6 +47,5 @@ func NewBank(code string, name string) (*Bank, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return &bank, nil
 }

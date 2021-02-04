@@ -1,26 +1,29 @@
-package model_test
+package model
 
 import (
 	"testing"
 
-	uuid "github.com/satori/go.uuid"
-
-	"github.com/codeedu/imersao/codepix-go/domain/model"
-	"github.com/stretchr/testify/require"
+	"gopkg.in/stretchr/testify.v1/require"
 )
 
-func TestModel_NewBank(t *testing.T) {
+func TestNewBank(t *testing.T) {
 
 	code := "001"
 	name := "Banco do Brasil"
 
-	bank, err := model.NewBank(code, name)
+	bank, err := NewBank(code, name)
 
 	require.Nil(t, err)
-	require.NotEmpty(t, uuid.FromStringOrNil(bank.ID))
+	require.NotEmpty(t, bank.ID)
 	require.Equal(t, bank.Code, code)
 	require.Equal(t, bank.Name, name)
 
-	_, err = model.NewBank("", "")
+	_, err = NewBank(code, "")
+	require.NotNil(t, err)
+
+	_, err = NewBank("", name)
+	require.NotNil(t, err)
+
+	_, err = NewBank("", "")
 	require.NotNil(t, err)
 }

@@ -1,17 +1,30 @@
 package model
 
 import (
-	"github.com/asaskevich/govalidator"
-	uuid "github.com/satori/go.uuid"
 	"time"
+
+	"github.com/asaskevich/govalidator"
+	"github.com/twinj/uuid"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
+//AccountRepositoryInterface is the interface for AccountModel
+type AccountRepositoryInterface interface {
+	AddAccount(account *Account) error
+	FindAccountByID(id string) (*Account, error)
+}
+
+//Account entity model
 type Account struct {
 	Base      `valid:"required"`
-	OwnerName string    `json:"owner_name" valid:"notnull"`
-	Bank      *Bank     `valid:"-"`
-	Number    string    `json:"number" valid:"notnull"`
-	PixKeys   []*PixKey `valid:"-"`
+	OwnerName string `gorm:"column:owner_name;type:varchar(255);not null" valid:"notnull"`
+	Bank      *Bank  `valid:"-"`
+	BankID    string `gorm:"column:bank_id;type:uuid;not null" valid:"-"`
+	Number    string `json:"number" gorm:"type:varchar(20)" valid:"notnull"`
+	PixKeys   []*Pix `gorm:"ForeignKey:AccountID" valid:"-"`
 }
 
 func (account *Account) isValid() error {
@@ -22,12 +35,14 @@ func (account *Account) isValid() error {
 	return nil
 }
 
-func NewAccount(bank *Bank, number string, ownerName string) (*Account, error) {
+//NewAccount return a new Account model
+func NewAccount(bank *Bank, ownerName, number string) (*Account, error) {
 	account := Account{
 		OwnerName: ownerName,
 		Bank:      bank,
 		Number:    number,
 	}
+
 	account.ID = uuid.NewV4().String()
 	account.CreatedAt = time.Now()
 
@@ -35,6 +50,5 @@ func NewAccount(bank *Bank, number string, ownerName string) (*Account, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return &account, nil
 }

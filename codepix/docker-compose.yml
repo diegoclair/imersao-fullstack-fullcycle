@@ -18,6 +18,7 @@ services:
     ports:
       - "5432:5432"
 
+  #service discovery for kafka works correctly
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
