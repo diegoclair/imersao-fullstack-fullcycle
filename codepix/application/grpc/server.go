@@ -11,7 +11,7 @@ import (
 )
 
 //StartGrpcServer is responsibile to start a gRPC server
-func StartGrpcServer(db contract.RepoManager, port int) {
+func StartGrpcServer(db contract.DataManager, port int) {
 
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)

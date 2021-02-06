@@ -19,8 +19,7 @@ import (
 	"log"
 
 	"github.com/diegoclair/imersao/codepix/application/grpc"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
-	"github.com/diegoclair/imersao/codepix/infrastructure/db"
+	"github.com/diegoclair/imersao/codepix/infrastructure/data"
 	"github.com/spf13/cobra"
 )
 
@@ -53,11 +52,10 @@ func init() {
 }
 
 func startGrpcServer() {
-	cfg := config.GetConfig()
-	database, err := db.Connect(cfg)
+	data, err := data.Connect()
 	if err != nil {
-		log.Fatalf("Error to connect to database: %v", err)
+		log.Fatalf("Error to connect data repositories: %v", err)
 	}
 
-	grpc.StartGrpcServer(database, portNumber)
+	grpc.StartGrpcServer(data, portNumber)
 }

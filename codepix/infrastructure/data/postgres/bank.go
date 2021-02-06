@@ -3,7 +3,7 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/diegoclair/imersao/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,12 +19,12 @@ func newBankRepo(db *gorm.DB) *bankRepo {
 	}
 }
 
-func (r bankRepo) AddBank(bank *model.Bank) error {
+func (r bankRepo) AddBank(bank *entity.Bank) error {
 	return r.db.Create(bank).Error
 }
 
-func (r bankRepo) FindBankByID(id string) (*model.Bank, error) {
-	var bank model.Bank
+func (r bankRepo) FindBankByID(id string) (*entity.Bank, error) {
+	var bank entity.Bank
 
 	r.db.First(&bank, "id = ?", id)
 	if bank.ID == "" {

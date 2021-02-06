@@ -3,7 +3,7 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/diegoclair/imersao/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,12 +19,12 @@ func newAccountRepo(db *gorm.DB) *accountRepo {
 	}
 }
 
-func (r accountRepo) AddAccount(account *model.Account) error {
+func (r accountRepo) AddAccount(account *entity.Account) error {
 	return r.db.Create(account).Error
 }
 
-func (r accountRepo) FindAccountByID(id string) (*model.Account, error) {
-	var account model.Account
+func (r accountRepo) FindAccountByID(id string) (*entity.Account, error) {
+	var account entity.Account
 
 	r.db.Preload("Bank").First(&account, "id = ?", id)
 	if account.ID == "" {

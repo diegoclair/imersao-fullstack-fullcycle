@@ -4,35 +4,36 @@ import (
 	"log"
 
 	"github.com/diegoclair/imersao/codepix/domain/contract"
-	"github.com/diegoclair/imersao/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 	"github.com/jinzhu/gorm"
 
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //is a pure Go Postgres driver for the database/sql package
 	_ "gorm.io/driver/sqlite"
 )
 
-// dbManager is the Database connection manager
-type dbManager struct {
+// postgres is the Database connection manager
+type postgres struct {
 	db *gorm.DB
 }
 
 //Instance to create a connection with database
-func Instance(cfg config.EnvironmentConfig) (contract.DataManager, error) {
-	var dsn string
+func Instance() (contract.PostgresRepo, error) {
+
+	cfg := config.GetConfig()
+
+	var dsn, dbType string
 	var db *gorm.DB
 	var err error
 
-	if cfg.Env == "test" {
+	if cfg.Env == config.EnvironmentTest {
 		dsn = cfg.Postgres.DSNTest
-		dbTypeTest := cfg.Postgres.DBTypeTest
-		db, err = gorm.Open(dbTypeTest, dsn)
-
+		dbType = cfg.Postgres.DBTypeTest
 	} else {
 		dsn = cfg.Postgres.DSN
-		dbType := cfg.Postgres.DBType
-		db, err = gorm.Open(dbType, dsn)
+		dbType = cfg.Postgres.DBType
 	}
+	db, err = gorm.Open(dbType, dsn)
 	if err != nil {
 		log.Fatalf("Error to connecting to database: %v", err)
 		return nil, err
@@ -41,31 +42,31 @@ func Instance(cfg config.EnvironmentConfig) (contract.DataManager, error) {
 	db.LogMode(cfg.Debug)
 
 	if cfg.Postgres.AutoMigrate {
-		db.AutoMigrate(&model.Bank{}, &model.Account{}, &model.Pix{}, &model.Transaction{})
+		db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
 	}
 
-	connection := &dbManager{
+	connection := &postgres{
 		db: db,
 	}
 	return connection, nil
 }
 
 //Account returns the account set
-func (c *dbManager) Account() contract.AccountRepo {
+func (c *postgres) Account() contract.AccountRepo {
 	return newAccountRepo(c.db)
 }
 
 //Bank returns the bank set
-func (c *dbManager) Bank() contract.BankRepo {
+func (c *postgres) Bank() contract.BankRepo {
 	return newBankRepo(c.db)
 }
 
 //Pix returns the pix set
-func (c *dbManager) Pix() contract.PixRepo {
+func (c *postgres) Pix() contract.PixRepo {
 	return newPixRepo(c.db)
 }
 
 //Transaction returns the transaction set
-func (c *dbManager) Transaction() contract.TransactionRepo {
+func (c *postgres) Transaction() contract.TransactionRepo {
 	return newTransactionRepo(c.db)
 }

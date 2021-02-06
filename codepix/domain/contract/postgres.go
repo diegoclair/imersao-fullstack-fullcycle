@@ -1,6 +1,6 @@
 package contract
 
-import "github.com/diegoclair/imersao/codepix/domain/model"
+import "github.com/diegoclair/imersao/codepix/domain/entity"
 
 //PostgresRepo defines the postgres aggregator interface
 type PostgresRepo interface {
@@ -12,25 +12,25 @@ type PostgresRepo interface {
 
 // AccountRepo defines the data set for account repo
 type AccountRepo interface {
-	AddAccount(account *model.Account) error
-	FindAccountByID(id string) (*model.Account, error)
+	AddAccount(account *entity.Account) error
+	FindAccountByID(id string) (*entity.Account, error)
 }
 
 // BankRepo defines the data set for Bank repo
 type BankRepo interface {
-	AddBank(bank *model.Bank) error
-	FindBankByID(id string) (*model.Bank, error)
+	AddBank(bank *entity.Bank) error
+	FindBankByID(id string) (*entity.Bank, error)
 }
 
 // PixRepo defines the data set for Pix repo
 type PixRepo interface {
-	AddPixKey(pixKey *model.Pix) (*model.Pix, error)
-	FindPixKeyByID(key, kind string) (*model.Pix, error)
+	AddPixKey(pixKey *entity.Pix) (*entity.Pix, error)
+	FindPixByKey(key, kind string) (*entity.Pix, error)
 }
 
 // TransactionRepo defines the data set for transaction repo
 type TransactionRepo interface {
-	FindByID(id string) (*model.Transaction, error)
-	Register(transaction *model.Transaction) error
-	Save(transaction *model.Transaction) error
+	FindByID(id string) (*entity.Transaction, error)
+	Register(transaction *entity.Transaction) error
+	Save(transaction *entity.Transaction) error
 }

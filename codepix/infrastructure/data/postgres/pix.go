@@ -3,7 +3,7 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/diegoclair/imersao/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/jinzhu/gorm"
 )
 
@@ -19,7 +19,7 @@ func newPixRepo(db *gorm.DB) *pixRepo {
 	}
 }
 
-func (r pixRepo) AddPixKey(pixKey *model.Pix) (*model.Pix, error) {
+func (r pixRepo) AddPixKey(pixKey *entity.Pix) (*entity.Pix, error) {
 	err := r.db.Create(pixKey).Error
 	if err != nil {
 		return nil, err
@@ -27,8 +27,8 @@ func (r pixRepo) AddPixKey(pixKey *model.Pix) (*model.Pix, error) {
 	return pixKey, nil
 }
 
-func (r pixRepo) FindPixKeyByID(key, kind string) (*model.Pix, error) {
-	var pix model.Pix
+func (r pixRepo) FindPixByKey(key, kind string) (*entity.Pix, error) {
+	var pix entity.Pix
 
 	r.db.Preload("Account.Bank").First(&pix, "kind = ? and key = ?", kind, key)
 	if pix.ID == "" {

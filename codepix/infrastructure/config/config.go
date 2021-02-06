@@ -5,6 +5,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+//Environment standard values
+const (
+	EnvironmentTest string = "test"
+)
+
 // EnvironmentConfig is environment variables config
 type EnvironmentConfig struct {
 	Env      string
@@ -24,7 +29,10 @@ type PostgresConfig struct {
 // GetConfig to read initial config
 func GetConfig() (config EnvironmentConfig) {
 	viper.SetConfigFile(".env")
-	viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
 	config.Env = cast.ToString(viper.Get("env"))
 	config.Debug = cast.ToBool(viper.Get("debug"))
 	config.Postgres.DSN = cast.ToString(viper.Get("dsnPostgres"))
