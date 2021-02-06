@@ -26,7 +26,7 @@ func NewPixServer(pixService contract.PixService, mapper mapper.Mapper) *PixServ
 
 func (s *PixServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*pb.AddPixKeyResponse, error) {
 
-	key, err := s.pixService.RegisterKey(req.Key, req.Kind, req.AccountID)
+	key, err := s.pixService.RegisterKey(req.Key, req.Keytype, req.AccountID)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (s *PixServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*p
 
 func (s *PixServer) FindPixKeyByID(ctx context.Context, req *pb.FindPixKeyByIDRequest) (*pb.FindPixKeyByIDResponse, error) {
 
-	pix, err := s.pixService.FindKeyByID(req.Key, req.Kind)
+	pix, err := s.pixService.FindKeyByID(req.Key, req.Keytype)
 	if err != nil {
 		return nil, err
 	}

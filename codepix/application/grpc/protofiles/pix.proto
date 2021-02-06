@@ -10,13 +10,13 @@ service PixService {
 }
 
 message AddPixKeyRequest {
-    string kind = 1;
+    string keytype = 1;
     string key = 2;
     string accountID = 3; 
 }
 
 message FindPixKeyByIDRequest {
-    string kind = 1;
+    string keytype = 1;
     string key = 2;
 }
 
@@ -31,7 +31,7 @@ message Account {
 
 message FindPixKeyByIDResponse {
     string id = 1;
-    string kind = 2;
+    string keytype = 2;
     string key = 3;
     Account account = 4;
     string createdAt = 5;

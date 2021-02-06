@@ -18,7 +18,7 @@ func newTransactionService(svc *Service) contract.TransactionService {
 	}
 }
 
-func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description string, amount float64) (*entity.Transaction, error) {
+func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, id, description string, amount float64) (*entity.Transaction, error) {
 
 	account, err := s.svc.db.Postgres().Account().FindAccountByID(accountIDFrom)
 	if err != nil {
@@ -30,7 +30,7 @@ func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, des
 		return nil, err
 	}
 
-	transaction, err := entity.NewTransaction(account, amount, pixKey, description)
+	transaction, err := entity.NewTransaction(account, amount, pixKey, description, id)
 	if err != nil {
 		return nil, err
 	}

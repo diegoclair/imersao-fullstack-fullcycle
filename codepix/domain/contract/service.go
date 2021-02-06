@@ -10,7 +10,7 @@ type PixService interface {
 
 // TransactionService holds a transaction service operations
 type TransactionService interface {
-	Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description string, amount float64) (*entity.Transaction, error)
+	Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description, id string, amount float64) (*entity.Transaction, error)
 	Confirm(transactionID string) (*entity.Transaction, error)
 	Complete(transactionID string) (*entity.Transaction, error)
 	Error(transactionID, reason string) (*entity.Transaction, error)

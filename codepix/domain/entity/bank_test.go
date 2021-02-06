@@ -10,7 +10,6 @@ func TestNewBank(t *testing.T) {
 
 	code := "001"
 	name := "Banco do Brasil"
-
 	bank, err := NewBank(code, name)
 
 	require.Nil(t, err)

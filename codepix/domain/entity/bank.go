@@ -1,28 +1,25 @@
 package entity
 
 import (
+	"fmt"
 	"time"
 
-	"github.com/asaskevich/govalidator"
+	"github.com/diegoclair/go_utils-lib/v2/validstruct"
 	"github.com/twinj/uuid"
 )
 
-func init() {
-	govalidator.SetFieldsRequiredByDefault(true)
-}
-
 //Bank entity model
 type Bank struct {
-	Base     `valid:"required"`
-	Code     string     `json:"code" gorm:"type:varchar(20)" valid:"notnull"`
-	Name     string     `json:"name" gorm:"type:varchar(255)" valid:"notnull"`
-	Accounts *[]Account `gorm:"ForeignKey:BankID" valid:"-"`
+	Base     `validate:"required"`
+	Code     string     `json:"code" gorm:"type:varchar(20)" validate:"required"`
+	Name     string     `json:"name" gorm:"type:varchar(255)" validate:"required"`
+	Accounts *[]Account `gorm:"ForeignKey:BankID"`
 }
 
 func (bank *Bank) isValid() error {
-	_, err := govalidator.ValidateStruct(bank)
+	err := validstruct.ValidateStruct(bank)
 	if err != nil {
-		return err
+		return fmt.Errorf(err.Message())
 	}
 	return nil
 }

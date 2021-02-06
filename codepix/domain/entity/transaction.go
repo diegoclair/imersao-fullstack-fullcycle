@@ -2,15 +2,13 @@ package entity
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
 	"time"
 
-	"github.com/asaskevich/govalidator"
+	"github.com/diegoclair/go_utils-lib/v2/validstruct"
 	"github.com/twinj/uuid"
 )
-
-func init() {
-	govalidator.SetFieldsRequiredByDefault(true)
-}
 
 //Transaction Standard values
 const (
@@ -22,22 +20,18 @@ const (
 
 //Transaction entity model
 type Transaction struct {
-	Base              `valid:"required"`
-	AccountFrom       *Account `valid:"-"`
-	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
-	Amount            float64  `json:"amount" gorm:"type:float" valid:"notnull"`
-	PixTo             *Pix     `valid:"-"`
-	PixKeyToID        string   `gorm:"column:pix_key_to_id;type:uuid;" valid:"notnull"`
-	Status            string   `json:"status" gorm:"type:varchar(20)" valid:"notnull"`
-	Description       string   `json:"description" gorm:"type:varchar(255)" valid:"notnull"`
-	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"-"`
+	Base              `validate:"required"`
+	AccountFrom       *Account `validate:"required,dive,required"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" validate:"required,gt=0"`
+	Amount            float64  `json:"amount" gorm:"type:float" validate:"required"`
+	PixTo             *Pix     `validate:"required,dive,required"`
+	PixKeyToID        string   `gorm:"column:pix_key_to_id;type:uuid;" validate:"required,uuid4"`
+	Status            string   `json:"status" gorm:"type:varchar(20)" validate:"required"`
+	Description       string   `json:"description" gorm:"type:varchar(255)" validate:"required"`
+	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" `
 }
 
 func (t *Transaction) isValid() error {
-
-	if t.Amount <= 0 {
-		return errors.New("The amout must be greater than 0")
-	}
 
 	if t.Status != TransactionCompleted &&
 		t.Status != TransactionConfirmed &&
@@ -46,28 +40,40 @@ func (t *Transaction) isValid() error {
 		return errors.New("Invalid Status for the transaction")
 	}
 
-	if t.PixTo.AccountID == t.AccountFrom.ID {
+	if t.PixTo.AccountID == t.AccountFromID {
 		return errors.New("The source and destination account cannot be the same")
 	}
 
-	_, err := govalidator.ValidateStruct(t)
+	err := validstruct.ValidateStruct(t)
 	if err != nil {
-		return err
+		validationErrors := err.Causes().([]string)
+		fmt.Println("Error to validate transaction struct")
+		for i := range validationErrors {
+			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
+		}
+
+		return fmt.Errorf(fmt.Sprintf("%v", validationErrors))
 	}
 	return nil
 }
 
 //NewTransaction return a new transaction model
-func NewTransaction(accountFrom *Account, amount float64, pixTo *Pix, description string) (*Transaction, error) {
+func NewTransaction(accountFrom *Account, amount float64, pixTo *Pix, description, id string) (*Transaction, error) {
+
 	transaction := Transaction{
-		AccountFrom: accountFrom,
-		Amount:      amount,
-		PixTo:       pixTo,
-		Status:      TransactionPending,
-		Description: description,
+		AccountFrom:   accountFrom,
+		AccountFromID: accountFrom.ID,
+		Amount:        amount,
+		PixTo:         pixTo,
+		PixKeyToID:    pixTo.ID,
+		Status:        TransactionPending,
+		Description:   description,
 	}
 
-	transaction.ID = uuid.NewV4().String()
+	transaction.ID = id
+	if transaction.ID == "" {
+		transaction.ID = uuid.NewV4().String()
+	}
 	transaction.CreatedAt = time.Now()
 
 	err := transaction.isValid()

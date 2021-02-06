@@ -21,15 +21,16 @@ func TestNewTransaction(t *testing.T) {
 	ownerName = "Mariana"
 	accountDestination, _ := entity.NewAccount(bank, accountNumberDestination, ownerName)
 
-	kind := "email"
+	keyType := entity.PixKeytypeEmail
 	key := "j@j.com"
-	pix, _ := entity.NewPix(kind, accountDestination, key)
+	pix, _ := entity.NewPix(keyType, accountDestination, key)
 
 	require.NotEqual(t, account.ID, accountDestination.ID)
 
 	amount := 3.10
 	statusTransaction := "pending"
-	transaction, err := entity.NewTransaction(account, amount, pix, "My description")
+
+	transaction, err := entity.NewTransaction(account, amount, pix, "My description", "")
 
 	require.Nil(t, err)
 	require.NotNil(t, uuid.FromStringOrNil(transaction.ID))
@@ -38,12 +39,12 @@ func TestNewTransaction(t *testing.T) {
 	require.Equal(t, transaction.Description, "My description")
 	require.Empty(t, transaction.CancelDescription)
 
-	pixSameAccount, err := entity.NewPix(kind, account, key)
+	pixSameAccount, err := entity.NewPix(keyType, account, key)
 
-	_, err = entity.NewTransaction(account, amount, pixSameAccount, "My description")
+	_, err = entity.NewTransaction(account, amount, pixSameAccount, "My description", "")
 	require.NotNil(t, err)
 
-	_, err = entity.NewTransaction(account, 0, pix, "My description")
+	_, err = entity.NewTransaction(account, 0, pix, "My description", "")
 	require.NotNil(t, err)
 
 }
@@ -66,7 +67,7 @@ func TestModel_ChangeStatusOfATransaction(t *testing.T) {
 	pix, _ := entity.NewPix(kind, accountDestination, key)
 
 	amount := 3.10
-	transaction, _ := entity.NewTransaction(account, amount, pix, "My description")
+	transaction, _ := entity.NewTransaction(account, amount, pix, "My description", "")
 
 	transaction.Complete()
 	require.Equal(t, transaction.Status, entity.TransactionCompleted)

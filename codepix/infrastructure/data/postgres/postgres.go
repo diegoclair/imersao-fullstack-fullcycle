@@ -1,8 +1,6 @@
 package postgres
 
 import (
-	"log"
-
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
@@ -35,7 +33,6 @@ func Instance() (contract.PostgresRepo, error) {
 	}
 	db, err = gorm.Open(dbType, dsn)
 	if err != nil {
-		log.Fatalf("Error to connecting to database: %v", err)
 		return nil, err
 	}
 
