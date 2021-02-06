@@ -1,4 +1,4 @@
-package controller
+package server
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 )
 
-//PixControllerServer is a struct to interact with services
-type PixControllerServer struct {
+//PixServer is a struct to interact with services
+type PixServer struct {
 	pixService                       contract.PixService
 	mapper                           mapper.Mapper
 	pb.UnimplementedPixServiceServer //its necessary when we are using grpc
 }
 
-//NewPixControllerServer to handle requests
-func NewPixControllerServer(pixService contract.PixService, mapper mapper.Mapper) *PixControllerServer {
-	return &PixControllerServer{
+//NewPixServer to handle requests
+func NewPixServer(pixService contract.PixService, mapper mapper.Mapper) *PixServer {
+	return &PixServer{
 		pixService: pixService,
 		mapper:     mapper,
 	}
 }
 
-func (s *PixControllerServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*pb.AddPixKeyResponse, error) {
+func (s *PixServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*pb.AddPixKeyResponse, error) {
 
 	key, err := s.pixService.RegisterKey(req.Key, req.Kind, req.AccountID)
 	if err != nil {
@@ -37,7 +37,7 @@ func (s *PixControllerServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRe
 	}, nil
 }
 
-func (s *PixControllerServer) FindPixKeyByID(ctx context.Context, req *pb.FindPixKeyByIDRequest) (*pb.FindPixKeyByIDResponse, error) {
+func (s *PixServer) FindPixKeyByID(ctx context.Context, req *pb.FindPixKeyByIDRequest) (*pb.FindPixKeyByIDResponse, error) {
 
 	pix, err := s.pixService.FindKeyByID(req.Key, req.Kind)
 	if err != nil {

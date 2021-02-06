@@ -6,8 +6,8 @@ import (
 	"net"
 
 	"github.com/IQ-tech/go-mapper"
-	"github.com/diegoclair/imersao/codepix/application/grpc/controller"
 	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
+	"github.com/diegoclair/imersao/codepix/application/grpc/server"
 	"github.com/diegoclair/imersao/codepix/domain/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -39,6 +39,6 @@ func registerGRPCServices(grpcServer *grpc.Server, svc *service.Service) {
 	svm := service.NewServiceManager()
 
 	pixService := svm.PixService(svc)
-	controllerServer := controller.NewPixControllerServer(pixService, mapper)
-	pb.RegisterPixServiceServer(grpcServer, controllerServer)
+	pixServer := server.NewPixServer(pixService, mapper)
+	pb.RegisterPixServiceServer(grpcServer, pixServer)
 }
