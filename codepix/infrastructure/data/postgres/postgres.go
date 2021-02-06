@@ -20,7 +20,7 @@ type postgres struct {
 //Instance to create a connection with database
 func Instance() (contract.PostgresRepo, error) {
 
-	cfg := config.GetConfig()
+	cfg := config.GetConfigEnvironment()
 
 	var dsn, dbType string
 	var db *gorm.DB

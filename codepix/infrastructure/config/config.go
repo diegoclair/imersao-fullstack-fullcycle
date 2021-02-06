@@ -10,8 +10,8 @@ const (
 	EnvironmentTest string = "test"
 )
 
-// EnvironmentConfig is environment variables config
-type EnvironmentConfig struct {
+// ConfigEnvironment is environment variables config
+type ConfigEnvironment struct {
 	Env      string
 	Debug    bool
 	Postgres PostgresConfig
@@ -26,8 +26,8 @@ type PostgresConfig struct {
 	AutoMigrate bool
 }
 
-// GetConfig to read initial config
-func GetConfig() (config EnvironmentConfig) {
+// GetConfigEnvironment to read initial config
+func GetConfigEnvironment() (config ConfigEnvironment) {
 	viper.SetConfigFile(".env")
 	err := viper.ReadInConfig()
 	if err != nil {
