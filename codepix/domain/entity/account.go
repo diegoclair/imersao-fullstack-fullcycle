@@ -2,6 +2,7 @@ package entity
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/diegoclair/go_utils-lib/v2/validstruct"
@@ -21,7 +22,13 @@ type Account struct {
 func (account *Account) isValid() error {
 	err := validstruct.ValidateStruct(account)
 	if err != nil {
-		return fmt.Errorf(err.Message())
+		validationErrors := err.Causes().([]string)
+		fmt.Println("Error to validate account entity struct")
+		for i := range validationErrors {
+			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
+		}
+
+		return fmt.Errorf(fmt.Sprintf("%v", validationErrors))
 	}
 	return nil
 }

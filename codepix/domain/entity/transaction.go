@@ -47,7 +47,7 @@ func (t *Transaction) isValid() error {
 	err := validstruct.ValidateStruct(t)
 	if err != nil {
 		validationErrors := err.Causes().([]string)
-		fmt.Println("Error to validate transaction struct")
+		fmt.Println("Error to validate transaction entity struct")
 		for i := range validationErrors {
 			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
 		}

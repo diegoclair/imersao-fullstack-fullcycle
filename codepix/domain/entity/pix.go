@@ -3,6 +3,7 @@ package entity
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/Nhanderu/brdoc"
@@ -48,7 +49,13 @@ func (pix *Pix) isValid() error {
 
 	err := validstruct.ValidateStruct(pix)
 	if err != nil {
-		return fmt.Errorf(err.Message())
+		validationErrors := err.Causes().([]string)
+		fmt.Println("Error to validate pix entity struct")
+		for i := range validationErrors {
+			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
+		}
+
+		return fmt.Errorf(fmt.Sprintf("%v", validationErrors))
 	}
 	return nil
 }
