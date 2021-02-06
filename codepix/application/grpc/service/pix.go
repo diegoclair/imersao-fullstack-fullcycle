@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/IQ-tech/go-mapper"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/grpc/pb"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/usecase"
+	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
+	"github.com/diegoclair/imersao/codepix/application/usecase"
 )
 
 type PixGrpcService struct {

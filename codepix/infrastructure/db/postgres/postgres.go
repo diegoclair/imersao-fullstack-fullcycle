@@ -3,10 +3,10 @@ package db
 import (
 	"log"
 
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/domain/contract"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/domain/model"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/config"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/db/postgres"
+	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/infrastructure/db/postgres"
 	"github.com/jinzhu/gorm"
 
 	_ "github.com/lib/pq"

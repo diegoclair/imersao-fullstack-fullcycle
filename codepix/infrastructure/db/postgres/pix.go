@@ -3,7 +3,7 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/model"
 	"github.com/jinzhu/gorm"
 )
 
@@ -27,7 +27,7 @@ func (r pixRepo) AddPixKey(pixKey *model.Pix) (*model.Pix, error) {
 	return pixKey, nil
 }
 
-func (r pixRepo) FindKeyByID(key, kind string) (*model.Pix, error) {
+func (r pixRepo) FindPixKeyByID(key, kind string) (*model.Pix, error) {
 	var pix model.Pix
 
 	r.db.Preload("Account.Bank").First(&pix, "kind = ? and key = ?", kind, key)

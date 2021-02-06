@@ -11,12 +11,6 @@ func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
-//AccountRepositoryInterface is the interface for AccountModel
-type AccountRepositoryInterface interface {
-	AddAccount(account *Account) error
-	FindAccountByID(id string) (*Account, error)
-}
-
 //Account entity model
 type Account struct {
 	Base      `valid:"required"`

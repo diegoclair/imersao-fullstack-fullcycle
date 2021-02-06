@@ -20,13 +20,6 @@ const (
 	TransactionConfirmed string = "confirmed"
 )
 
-//TransactionRepositoryInterface is the interface for TransactionModel
-type TransactionRepositoryInterface interface {
-	Register(transaction *Transaction) error
-	Save(transaction *Transaction) error
-	FindByID(id string) (*Transaction, error)
-}
-
 //Transaction entity model
 type Transaction struct {
 	Base              `valid:"required"`

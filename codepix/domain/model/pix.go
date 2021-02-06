@@ -25,12 +25,6 @@ const (
 	PixStatusInactive string = "inactive"
 )
 
-//PixRepositoryInterface is the interface for PixModel
-type PixRepositoryInterface interface {
-	AddPixKey(pixKey *Pix) (*Pix, error)
-	FindKeyByID(key, kind string) (*Pix, error)
-}
-
 //Pix entity model
 type Pix struct {
 	Base      `valid:"required"`

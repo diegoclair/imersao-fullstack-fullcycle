@@ -1,4 +1,4 @@
-module github.com/diegoclair/imersao-fullstack-fullcycle/codepix
+module github.com/diegoclair/imersao/codepix
 
 go 1.15
 

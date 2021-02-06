@@ -11,12 +11,6 @@ func init() {
 	govalidator.SetFieldsRequiredByDefault(true)
 }
 
-//BankRepositoryInterface is the interface for BankModel
-type BankRepositoryInterface interface {
-	AddBank(bank *Bank) error
-	FindBankByID(id string) (*Bank, error)
-}
-
 //Bank entity model
 type Bank struct {
 	Base     `valid:"required"`

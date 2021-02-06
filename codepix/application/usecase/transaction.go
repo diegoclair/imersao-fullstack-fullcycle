@@ -3,7 +3,7 @@ package usecase
 import (
 	"log"
 
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/domain/model"
+	"github.com/diegoclair/imersao/codepix/domain/model"
 )
 
 type TransactionUseCase struct {

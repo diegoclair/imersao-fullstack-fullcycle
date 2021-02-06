@@ -16,9 +16,11 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/grpc"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/config"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/db"
+	"log"
+
+	"github.com/diegoclair/imersao/codepix/application/grpc"
+	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/infrastructure/db"
 	"github.com/spf13/cobra"
 )
 
@@ -56,6 +58,6 @@ func startGrpcServer() {
 	if err != nil {
 		log.Fatalf("Error to connect to database: %v", err)
 	}
-	
+
 	grpc.StartGrpcServer(database, portNumber)
 }
