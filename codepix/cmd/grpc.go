@@ -19,11 +19,12 @@ import (
 	"log"
 
 	"github.com/diegoclair/imersao/codepix/application/grpc"
+	"github.com/diegoclair/imersao/codepix/domain/service"
 	"github.com/diegoclair/imersao/codepix/infrastructure/data"
 	"github.com/spf13/cobra"
 )
 
-var portNumber int
+var port int
 
 const defaultGRPCPort int = 50051
 
@@ -40,7 +41,7 @@ func init() {
 	rootCmd.AddCommand(grpcCmd)
 
 	// Here you will define your flags and configuration settings.
-	grpcCmd.Flags().IntVarP(&portNumber, "port", "p", defaultGRPCPort, "gRPC server port")
+	grpcCmd.Flags().IntVarP(&port, "port", "p", defaultGRPCPort, "gRPC server port")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
@@ -57,5 +58,7 @@ func startGrpcServer() {
 		log.Fatalf("Error to connect data repositories: %v", err)
 	}
 
-	grpc.StartGrpcServer(data, portNumber)
+	svc := service.New(data)
+
+	grpc.StartGrpcServer(svc, port)
 }

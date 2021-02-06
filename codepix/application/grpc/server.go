@@ -5,13 +5,16 @@ import (
 	"log"
 	"net"
 
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/IQ-tech/go-mapper"
+	"github.com/diegoclair/imersao/codepix/application/grpc/controller"
+	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
+	"github.com/diegoclair/imersao/codepix/domain/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 //StartGrpcServer is responsibile to start a gRPC server
-func StartGrpcServer(db contract.DataManager, port int) {
+func StartGrpcServer(svc *service.Service, port int) {
 
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
@@ -22,8 +25,7 @@ func StartGrpcServer(db contract.DataManager, port int) {
 		log.Fatalf("Failed to get listener: %v", err)
 	}
 
-	// pixGrpcService := getPixGrpcService(db)
-	// pb.RegisterPixServiceServer(grpcServer, pixGrpcService)
+	registerGRPCServices(grpcServer, svc)
 
 	fmt.Println("gRPC server is listening on port: ", port)
 	err = grpcServer.Serve(listener)
@@ -32,18 +34,11 @@ func StartGrpcServer(db contract.DataManager, port int) {
 	}
 }
 
-// func getPixGrpcService(db contract.RepoManager) *service.PixGrpcService {
+func registerGRPCServices(grpcServer *grpc.Server, svc *service.Service) {
+	mapper := mapper.New()
+	svm := service.NewServiceManager()
 
-// 	pixRepository := PixKeyReposirotyDB{
-// 		DB: db,
-// 	}
-// 	accountRepository := AccountReposirotyDB{
-// 		DB: db,
-// 	}
-// 	pixUseCase := usecase.PixUseCase{
-// 		PixRepository:     pixRepository,
-// 		AccountRepository: accountRepository,
-// 	}
-
-// 	return service.NewPixGrpcService(pixUseCase)
-// }
+	pixService := svm.PixService(svc)
+	controllerServer := controller.NewPixControllerServer(pixService, mapper)
+	pb.RegisterPixServiceServer(grpcServer, controllerServer)
+}

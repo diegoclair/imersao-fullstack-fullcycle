@@ -17,6 +17,7 @@ import (
 // 	}
 // }
 
+//we can add here more than one database
 type data struct {
 	postgresRepo contract.PostgresRepo
 }
