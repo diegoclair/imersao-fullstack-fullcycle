@@ -2,11 +2,9 @@ package entity
 
 import (
 	"errors"
-	"fmt"
-	"strconv"
 	"time"
 
-	"github.com/diegoclair/go_utils-lib/v2/validstruct"
+	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
 	"github.com/twinj/uuid"
 )
 
@@ -44,17 +42,7 @@ func (t *Transaction) isValid() error {
 		return errors.New("The source and destination account cannot be the same")
 	}
 
-	err := validstruct.ValidateStruct(t)
-	if err != nil {
-		validationErrors := err.Causes().([]string)
-		fmt.Println("Error to validate transaction entity struct")
-		for i := range validationErrors {
-			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
-		}
-
-		return fmt.Errorf(fmt.Sprintf("%v", validationErrors))
-	}
-	return nil
+	return validate.Struct(t, "Transaction")
 }
 
 //NewTransaction return a new transaction model

@@ -2,12 +2,11 @@ package entity
 
 import (
 	"errors"
-	"fmt"
-	"strconv"
 	"time"
 
 	"github.com/Nhanderu/brdoc"
-	"github.com/diegoclair/go_utils-lib/v2/validstruct"
+	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
+
 	"github.com/twinj/uuid"
 )
 
@@ -47,17 +46,7 @@ func (pix *Pix) isValid() error {
 		return errors.New("Invalid cpf")
 	}
 
-	err := validstruct.ValidateStruct(pix)
-	if err != nil {
-		validationErrors := err.Causes().([]string)
-		fmt.Println("Error to validate pix entity struct")
-		for i := range validationErrors {
-			fmt.Println(strconv.Itoa(i+1) + " - " + validationErrors[i])
-		}
-
-		return fmt.Errorf(fmt.Sprintf("%v", validationErrors))
-	}
-	return nil
+	return validate.Struct(pix, "Pix")
 }
 
 //NewPix return a new Pix model
