@@ -16,10 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"os"
-
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/grpc"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/infrastructure/db"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/grpc"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/infrastructure/db"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +31,7 @@ var grpcCmd = &cobra.Command{
 	Use:   "grpc",
 	Short: "To start grpc server on default port 50051",
 	Run: func(cmd *cobra.Command, args []string) {
-		startGrpcServer(cmd, args)
+		startGrpcServer()
 	},
 }
 
@@ -51,7 +50,12 @@ func init() {
 	// grpcCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func startGrpcServer(cmd *cobra.Command, args []string) {
-	database := db.ConnectDB(os.Getenv("env"))
+func startGrpcServer() {
+	cfg := config.GetConfig()
+	database, err := db.Connect(cfg)
+	if err != nil {
+		log.Fatalf("Error to connect to database: %v", err)
+	}
+	
 	grpc.StartGrpcServer(database, portNumber)
 }

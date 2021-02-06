@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/IQ-tech/go-mapper"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/grpc/pb"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/usecase"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/grpc/pb"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/application/usecase"
 )
 
 type PixGrpcService struct {
@@ -14,7 +14,7 @@ type PixGrpcService struct {
 	pb.UnimplementedPixServiceServer
 }
 
-func NewGrpcService(usecase usecase.PixUseCase) *PixGrpcService {
+func NewPixGrpcService(usecase usecase.PixUseCase) *PixGrpcService {
 	return &PixGrpcService{
 		pixUseCase: usecase,
 	}

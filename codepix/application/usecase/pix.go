@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/diegoclair/imersao-fullstack-fullcycle/domain/model"
+	"github.com/diegoclair/imersao-fullstack-fullcycle/codepix/domain/model"
 )
 
 // PixUseCase is the repository implementation
