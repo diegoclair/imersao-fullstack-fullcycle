@@ -12,8 +12,8 @@ type pixRepo struct {
 	db *gorm.DB
 }
 
-//NewPixRepo return the implementation of pixRepo interface
-func NewPixRepo(db *gorm.DB) *pixRepo {
+//newPixRepo return the implementation of pixRepo interface
+func newPixRepo(db *gorm.DB) *pixRepo {
 	return &pixRepo{
 		db: db,
 	}

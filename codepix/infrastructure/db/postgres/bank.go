@@ -12,8 +12,8 @@ type bankRepo struct {
 	db *gorm.DB
 }
 
-//NewBankRepo return the implementation of bankRepo interface
-func NewBankRepo(db *gorm.DB) *bankRepo {
+//newBankRepo return the implementation of bankRepo interface
+func newBankRepo(db *gorm.DB) *bankRepo {
 	return &bankRepo{
 		db: db,
 	}

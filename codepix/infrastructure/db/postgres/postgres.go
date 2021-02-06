@@ -6,7 +6,6 @@ import (
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 	"github.com/diegoclair/imersao/codepix/domain/model"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
-	"github.com/diegoclair/imersao/codepix/infrastructure/db/postgres"
 	"github.com/jinzhu/gorm"
 
 	_ "github.com/lib/pq"
@@ -19,7 +18,7 @@ type dbManager struct {
 }
 
 //Instance to create a connection with database
-func Instance(cfg config.EnvironmentConfig) (contract.RepoManager, error) {
+func Instance(cfg config.EnvironmentConfig) (contract.DataManager, error) {
 	var dsn string
 	var db *gorm.DB
 	var err error
@@ -53,20 +52,20 @@ func Instance(cfg config.EnvironmentConfig) (contract.RepoManager, error) {
 
 //Account returns the account set
 func (c *dbManager) Account() contract.AccountRepo {
-	return postgres.NewAccountRepo(c.db)
+	return newAccountRepo(c.db)
 }
 
 //Bank returns the bank set
 func (c *dbManager) Bank() contract.BankRepo {
-	return postgres.NewBankRepo(c.db)
+	return newBankRepo(c.db)
 }
 
 //Pix returns the pix set
 func (c *dbManager) Pix() contract.PixRepo {
-	return postgres.NewPixRepo(c.db)
+	return newPixRepo(c.db)
 }
 
 //Transaction returns the transaction set
 func (c *dbManager) Transaction() contract.TransactionRepo {
-	return postgres.NewTransactionRepo(c.db)
+	return newTransactionRepo(c.db)
 }

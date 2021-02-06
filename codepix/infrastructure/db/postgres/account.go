@@ -12,8 +12,8 @@ type accountRepo struct {
 	db *gorm.DB
 }
 
-//NewAccountRepo return the implementation of accountRepo interface
-func NewAccountRepo(db *gorm.DB) *accountRepo {
+//newAccountRepo return the implementation of accountRepo interface
+func newAccountRepo(db *gorm.DB) *accountRepo {
 	return &accountRepo{
 		db: db,
 	}

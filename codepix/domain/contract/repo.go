@@ -2,13 +2,8 @@ package contract
 
 import "github.com/diegoclair/imersao/codepix/domain/model"
 
-//RepoManager defines the repository aggregator interface
-type RepoManager interface {
-	Postgres() PostgresDB
-}
-
-//PostgresDB defines the postgres aggregator interface
-type PostgresDB interface {
+//PostgresRepo defines the postgres aggregator interface
+type PostgresRepo interface {
 	Account() AccountRepo
 	Bank() BankRepo
 	Pix() PixRepo

@@ -22,6 +22,6 @@ func init() {
 }
 
 // Connect returns a instace of postgres db
-func Connect(cfg config.EnvironmentConfig) (contract.RepoManager, error) {
+func Connect(cfg config.EnvironmentConfig) (contract.DataManager, error) {
 	return postgres.Instance(cfg)
 }

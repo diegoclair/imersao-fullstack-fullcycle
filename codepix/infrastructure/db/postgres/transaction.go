@@ -12,8 +12,8 @@ type transactionRepo struct {
 	db *gorm.DB
 }
 
-//NewTransactionRepo return the implementation of transactionRepo interface
-func NewTransactionRepo(db *gorm.DB) *transactionRepo {
+//newTransactionRepo return the implementation of transactionRepo interface
+func newTransactionRepo(db *gorm.DB) *transactionRepo {
 	return &transactionRepo{
 		db: db,
 	}
