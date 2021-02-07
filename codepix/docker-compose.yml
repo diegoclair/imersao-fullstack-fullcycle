@@ -3,6 +3,7 @@ version: "3"
 services:
   app:
     build: .
+    user: ${CURRENT_UID}
     volumes:
       - .:/go/src/
 
@@ -10,6 +11,7 @@ services:
     image: postgres:9.4
     restart: always
     tty: true
+    user: ${CURRENT_UID}
     volumes:
       - .pgdata:/var/lib/postgresql/data
     environment:

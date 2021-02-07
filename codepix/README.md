@@ -10,7 +10,8 @@ Utilizamos Docker para que todos os serviços que utilizaremos fiquem disponíve
 
 - Faça o clone do projeto
 - Tendo o docker instalado em sua máquina apenas execute:
-`docker-compose up -d`
+`CURRENT_UID=$(id -u):$(id -g) docker-compose up -d`
+- Obs: a varável CURRENT_UID serve para que o docker compose execute com os eu usuário, dessa forma você não evitará problemas ao criar arquivos dentro do seu container
 
 ### Como executar a aplicação
 - Acesse o container da aplicação executando: `docker exec -it codepix_app bash`
