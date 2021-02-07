@@ -16,31 +16,29 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/diegoclair/imersao/codepix/application"
-	"github.com/diegoclair/imersao/codepix/application/grpc"
+	"github.com/diegoclair/imersao/codepix/application/kafka"
 	"github.com/spf13/cobra"
 )
 
-// grpcCmd represents the grpc command
-var grpcCmd = &cobra.Command{
-	Use:   "grpc",
-	Short: "To start grpc server on default port 50051",
+// kafkaCmd represents the kafka command
+var kafkaCmd = &cobra.Command{
+	Use:   "kafka",
+	Short: "Starting consuming transactions using apache kafka",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpc.StartGrpcServer(application.GRPCPort)
+		kafka.StartKafkaServer()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(grpcCmd)
+	rootCmd.AddCommand(kafkaCmd)
 
 	// Here you will define your flags and configuration settings.
-	grpcCmd.Flags().IntVarP(&application.GRPCPort, "port", "p", application.DefaultgRPCPort, "gRPC server port")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// grpcCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// kafkaCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// grpcCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// kafkaCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

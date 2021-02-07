@@ -5,45 +5,38 @@ import (
 	"log"
 	"net"
 
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/grpc/pb"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/grpc/service"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/application/usecase"
-	"github.com/diegoclair/imersao-fullstack-fullcycle/infrastructure/repository"
-	"github.com/jinzhu/gorm"
+	"github.com/diegoclair/imersao/codepix/application/factory"
+	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
+	"github.com/diegoclair/imersao/codepix/application/grpc/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 //StartGrpcServer is responsibile to start a gRPC server
-func StartGrpcServer(db *gorm.DB, port int) {
+func StartGrpcServer(port int) {
 
-	address := fmt.Sprintf(":%d", port)
+	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 
+	address := fmt.Sprintf("0.0.0.0:%d", port)
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
 		log.Fatalf("Failed to get listener: %v", err)
 	}
 
-	pixRepository := repository.PixKeyReposirotyDB{
-		DB: db,
-	}
-	accountRepository := repository.AccountReposirotyDB{
-		DB: db,
-	}
-	pixUseCase := usecase.PixUseCase{
-		PixRepository:     pixRepository,
-		AccountRepository: accountRepository,
-	}
-	pixGrpcService := service.NewGrpcService(pixUseCase)
+	registerGRPCServices(grpcServer)
 
-	s := grpc.NewServer()
-	pb.RegisterPixServiceServer(s, pixGrpcService)
-
-	reflection.Register(s)
-
-	fmt.Println("gRPC server is listening on port: ", port)
-	err = s.Serve(listener)
+	log.Println("gRPC server is listening on port: ", port)
+	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatal("Could not start gRPC server: ", err)
 	}
+}
+
+func registerGRPCServices(grpcServer *grpc.Server) {
+
+	factory := factory.GetDomainServices()
+
+	pixServer := server.NewPixServer(factory)
+	pb.RegisterPixServiceServer(grpcServer, pixServer)
 }
