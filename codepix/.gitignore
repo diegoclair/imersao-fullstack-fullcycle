@@ -1,2 +1,2 @@
-.pgdata
+.docker/.pgdata
 .env

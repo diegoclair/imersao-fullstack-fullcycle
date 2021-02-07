@@ -8,12 +8,11 @@ services:
       - .:/go/src/
 
   db:
-    image: postgres:9.4
+    build: .docker/postgres
     restart: always
     tty: true
-    user: ${CURRENT_UID}
     volumes:
-      - .pgdata:/var/lib/postgresql/data
+      - .docker/.pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=codepix
