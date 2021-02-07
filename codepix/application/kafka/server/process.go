@@ -15,17 +15,30 @@ import (
 
 //KafkaProcessor holds kafka processor functions
 type KafkaProcessor struct {
+	Consumer     *kafka.Consumer
 	Producer     *kafka.Producer
 	DeliveryChan chan kafka.Event
 
+	kfk                contract.KafkaManager
 	cfg                *config.EnvironmentVariables
 	pixService         contract.PixService
 	transactionService contract.TransactionService
 }
 
 //NewKafkaProcessor return an instace of kafka processor
-func NewKafkaProcessor(producer *kafka.Producer, deliveryChan chan kafka.Event, factory *factory.Services) *KafkaProcessor {
+func NewKafkaProcessor(kfk contract.KafkaManager, deliveryChan chan kafka.Event, factory *factory.Services) *KafkaProcessor {
+
+	producer, err := kfk.Kafka().NewProducer()
+	if err != nil {
+		panic(err)
+	}
+	consumer, err := kfk.Kafka().NewConsumer()
+	if err != nil {
+		panic(err)
+	}
+
 	return &KafkaProcessor{
+		Consumer:     consumer,
 		Producer:     producer,
 		DeliveryChan: deliveryChan,
 
@@ -37,23 +50,13 @@ func NewKafkaProcessor(producer *kafka.Producer, deliveryChan chan kafka.Event, 
 
 //Consume is to consume messages of a subscribed topics
 func (k *KafkaProcessor) Consume() {
-	configMap := &kafka.ConfigMap{
-		"bootstrap.servers": k.cfg.Kafka.BootstrapServers,
-		"group.id":          k.cfg.Kafka.ConsumerGroupID,
-		"auto.offset.reset": "earliest",
-	}
-
-	c, err := kafka.NewConsumer(configMap)
-	if err != nil {
-		panic(err)
-	}
 
 	topics := []string{k.cfg.Kafka.TransactionTopic, k.cfg.Kafka.TransactionConfirmationTopic}
-	c.SubscribeTopics(topics, nil)
+	k.Consumer.SubscribeTopics(topics, nil)
 	log.Println("Kafka consumer has been started")
 
 	for {
-		msg, err := c.ReadMessage(-1)
+		msg, err := k.Consumer.ReadMessage(-1)
 		if err == nil {
 			err = k.processMessage(msg)
 			if err != nil {
@@ -153,5 +156,5 @@ func (k *KafkaProcessor) sendToBank(topic string, transaction *model.Transaction
 		return err
 	}
 
-	return Publish(string(transactionJSON), topic, k.Producer, k.DeliveryChan)
+	return k.kfk.Kafka().Publish(string(transactionJSON), topic, k.Producer, k.DeliveryChan)
 }
