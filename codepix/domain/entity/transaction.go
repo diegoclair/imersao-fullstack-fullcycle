@@ -4,16 +4,9 @@ import (
 	"errors"
 	"time"
 
+	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
 	"github.com/twinj/uuid"
-)
-
-//Transaction Standard values
-const (
-	TransactionPending   string = "pending"
-	TransactionCompleted string = "completed"
-	TransactionError     string = "error"
-	TransactionConfirmed string = "confirmed"
 )
 
 //Transaction entity model
@@ -31,10 +24,10 @@ type Transaction struct {
 
 func (t *Transaction) isValid() error {
 
-	if t.Status != TransactionCompleted &&
-		t.Status != TransactionConfirmed &&
-		t.Status != TransactionError &&
-		t.Status != TransactionPending {
+	if t.Status != domain.TransactionCompleted &&
+		t.Status != domain.TransactionConfirmed &&
+		t.Status != domain.TransactionError &&
+		t.Status != domain.TransactionPending {
 		return errors.New("Invalid Status for the transaction")
 	}
 
@@ -54,7 +47,7 @@ func NewTransaction(accountFrom *Account, amount float64, pixTo *Pix, descriptio
 		Amount:        amount,
 		PixTo:         pixTo,
 		PixKeyToID:    pixTo.ID,
-		Status:        TransactionPending,
+		Status:        domain.TransactionPending,
 		Description:   description,
 	}
 
@@ -73,18 +66,18 @@ func NewTransaction(accountFrom *Account, amount float64, pixTo *Pix, descriptio
 
 //Confirm to set confirmed to transaction status
 func (t *Transaction) Confirm() error {
-	return t.setStatus(TransactionCompleted)
+	return t.setStatus(domain.TransactionCompleted)
 }
 
 //Complete to set completed to transaction status
 func (t *Transaction) Complete() error {
-	return t.setStatus(TransactionCompleted)
+	return t.setStatus(domain.TransactionCompleted)
 }
 
 //Cancel to set canceled to transaction status
 func (t *Transaction) Cancel(reason string) error {
 	t.CancelDescription = reason
-	return t.setStatus(TransactionError)
+	return t.setStatus(domain.TransactionError)
 }
 
 func (t *Transaction) setStatus(status string) error {

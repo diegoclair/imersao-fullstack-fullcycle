@@ -16,12 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-	"log"
-
-	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/diegoclair/imersao/codepix/application/kafka"
-	"github.com/diegoclair/imersao/codepix/infrastructure/data"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +25,7 @@ var kafkaCmd = &cobra.Command{
 	Use:   "kafka",
 	Short: "Starting consuming transactions using apache kafka",
 	Run: func(cmd *cobra.Command, args []string) {
-		startApacheKafkaServer()
+		kafka.StartKafkaServer()
 	},
 }
 
@@ -46,22 +41,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// kafkaCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func startApacheKafkaServer() {
-
-	fmt.Println("Producing a message")
-	producer := kafka.NewKafkaProducer()
-
-	deliveryChan := make(chan ckafka.Event)
-	kafka.Publish("Olá Kafka", "teste", producer, deliveryChan)
-	go kafka.DeliveryReport(deliveryChan)
-
-	data, err := data.Connect()
-	if err != nil {
-		log.Fatalf("Error to connect data repositories: %v", err)
-	}
-
-	kafkaProcessor := kafka.NewKafkaProcessor(data, producer, deliveryChan)
-	kafkaProcessor.Consume()
 }

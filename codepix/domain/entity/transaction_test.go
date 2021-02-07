@@ -3,6 +3,7 @@ package entity_test
 import (
 	"testing"
 
+	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
@@ -21,7 +22,7 @@ func TestNewTransaction(t *testing.T) {
 	ownerName = "Mariana"
 	accountDestination, _ := entity.NewAccount(bank, accountNumberDestination, ownerName)
 
-	keyType := entity.PixKeytypeEmail
+	keyType := domain.PixKeytypeEmail
 	key := "j@j.com"
 	pix, _ := entity.NewPix(keyType, accountDestination, key)
 
@@ -70,9 +71,9 @@ func TestModel_ChangeStatusOfATransaction(t *testing.T) {
 	transaction, _ := entity.NewTransaction(account, amount, pix, "My description", "")
 
 	transaction.Complete()
-	require.Equal(t, transaction.Status, entity.TransactionCompleted)
+	require.Equal(t, transaction.Status, domain.TransactionCompleted)
 
 	transaction.Cancel("Error")
-	require.Equal(t, transaction.Status, entity.TransactionError)
+	require.Equal(t, transaction.Status, domain.TransactionError)
 	require.Equal(t, transaction.CancelDescription, "Error")
 }

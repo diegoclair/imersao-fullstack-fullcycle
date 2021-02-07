@@ -1,20 +1,21 @@
-package kafka
+package server
 
 import (
 	"fmt"
 
-	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
+	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 )
 
 // NewKafkaProducer return an instace of a producer
-func NewKafkaProducer() *ckafka.Producer {
+func NewKafkaProducer(cfg *config.EnvironmentVariables) *kafka.Producer {
 
 	//the port 9092 is defined in docker compose
-	configMap := &ckafka.ConfigMap{
-		"bootstrap.servers": "kafka:9092",
+	configMap := &kafka.ConfigMap{
+		"bootstrap.servers": cfg.Kafka.BootstrapServers,
 	}
 
-	p, err := ckafka.NewProducer(configMap)
+	p, err := kafka.NewProducer(configMap)
 	if err != nil {
 		panic(err)
 	}
@@ -23,9 +24,9 @@ func NewKafkaProducer() *ckafka.Producer {
 }
 
 //Publish to publish a message into a kafka topic
-func Publish(msg, topic string, producer *ckafka.Producer, deliveryChan chan ckafka.Event) error {
-	message := &ckafka.Message{
-		TopicPartition: ckafka.TopicPartition{Topic: &topic, Partition: ckafka.PartitionAny},
+func Publish(msg, topic string, producer *kafka.Producer, deliveryChan chan kafka.Event) error {
+	message := &kafka.Message{
+		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
 		Value:          []byte(msg),
 	}
 
@@ -37,10 +38,10 @@ func Publish(msg, topic string, producer *ckafka.Producer, deliveryChan chan cka
 }
 
 //DeliveryReport listen a chan to report if the message was delivered or if got a error to delivery
-func DeliveryReport(deliveryChan chan ckafka.Event) {
+func DeliveryReport(deliveryChan chan kafka.Event) {
 	for e := range deliveryChan {
 		switch event := e.(type) {
-		case *ckafka.Message:
+		case *kafka.Message:
 			if event.TopicPartition.Error != nil {
 				fmt.Println("Delivery Faield", event.TopicPartition)
 			} else {

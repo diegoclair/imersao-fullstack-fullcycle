@@ -3,6 +3,7 @@ package entity_test
 import (
 	"testing"
 
+	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
@@ -17,7 +18,7 @@ func TestModel_NewPixKey(t *testing.T) {
 	ownerName := "Wesley"
 	account, _ := entity.NewAccount(bank, accountNumber, ownerName)
 
-	keytype := entity.PixKeytypeEmail
+	keytype := domain.PixKeytypeEmail
 	key := "j@j.com"
 	pix, err := entity.NewPix(keytype, account, key)
 
@@ -25,7 +26,7 @@ func TestModel_NewPixKey(t *testing.T) {
 	require.Equal(t, pix.Keytype, keytype)
 	require.Equal(t, pix.Status, "active")
 
-	keytype = entity.PixKeytypeCPF
+	keytype = domain.PixKeytypeCPF
 	key = "01234567890"
 	_, err = entity.NewPix(keytype, account, key)
 	require.Nil(t, err)

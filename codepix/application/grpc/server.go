@@ -5,16 +5,15 @@ import (
 	"log"
 	"net"
 
-	"github.com/IQ-tech/go-mapper"
+	"github.com/diegoclair/imersao/codepix/application/factory"
 	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
 	"github.com/diegoclair/imersao/codepix/application/grpc/server"
-	"github.com/diegoclair/imersao/codepix/domain/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 //StartGrpcServer is responsibile to start a gRPC server
-func StartGrpcServer(svc *service.Service, port int) {
+func StartGrpcServer(port int) {
 
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
@@ -25,7 +24,7 @@ func StartGrpcServer(svc *service.Service, port int) {
 		log.Fatalf("Failed to get listener: %v", err)
 	}
 
-	registerGRPCServices(grpcServer, svc)
+	registerGRPCServices(grpcServer)
 
 	fmt.Println("gRPC server is listening on port: ", port)
 	err = grpcServer.Serve(listener)
@@ -34,11 +33,10 @@ func StartGrpcServer(svc *service.Service, port int) {
 	}
 }
 
-func registerGRPCServices(grpcServer *grpc.Server, svc *service.Service) {
-	mapper := mapper.New()
-	svm := service.NewServiceManager()
+func registerGRPCServices(grpcServer *grpc.Server) {
 
-	pixService := svm.PixService(svc)
-	pixServer := server.NewPixServer(pixService, mapper)
+	factory := factory.GetDomainServices()
+
+	pixServer := server.NewPixServer(factory)
 	pb.RegisterPixServiceServer(grpcServer, pixServer)
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/IQ-tech/go-mapper"
+	"github.com/diegoclair/imersao/codepix/application/factory"
 	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 )
@@ -17,10 +18,10 @@ type PixServer struct {
 }
 
 //NewPixServer to handle requests
-func NewPixServer(pixService contract.PixService, mapper mapper.Mapper) *PixServer {
+func NewPixServer(factory *factory.Services) *PixServer {
 	return &PixServer{
-		pixService: pixService,
-		mapper:     mapper,
+		pixService: factory.PixService,
+		mapper:     factory.Mapper,
 	}
 }
 

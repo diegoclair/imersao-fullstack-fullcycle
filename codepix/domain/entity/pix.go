@@ -5,21 +5,10 @@ import (
 	"time"
 
 	"github.com/Nhanderu/brdoc"
+	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
 
 	"github.com/twinj/uuid"
-)
-
-// Pix kind values
-const (
-	PixKeytypeEmail string = "email"
-	PixKeytypeCPF   string = "cpf"
-)
-
-// Status standard values
-const (
-	PixStatusActive   string = "active"
-	PixStatusInactive string = "inactive"
 )
 
 //Pix entity model
@@ -34,15 +23,15 @@ type Pix struct {
 
 func (pix *Pix) isValid() error {
 
-	if pix.Keytype != PixKeytypeEmail && pix.Keytype != PixKeytypeCPF {
+	if pix.Keytype != domain.PixKeytypeEmail && pix.Keytype != domain.PixKeytypeCPF {
 		return errors.New("Invalid type of key")
 	}
 
-	if pix.Status != PixStatusActive && pix.Status != PixStatusInactive {
+	if pix.Status != domain.PixStatusActive && pix.Status != domain.PixStatusInactive {
 		return errors.New("Invalid status")
 	}
 
-	if pix.Keytype == PixKeytypeCPF && !brdoc.IsCPF(pix.Key) {
+	if pix.Keytype == domain.PixKeytypeCPF && !brdoc.IsCPF(pix.Key) {
 		return errors.New("Invalid cpf")
 	}
 
@@ -56,7 +45,7 @@ func NewPix(keyType string, account *Account, key string) (*Pix, error) {
 		Key:       key,
 		Account:   account,
 		AccountID: account.ID,
-		Status:    PixStatusActive,
+		Status:    domain.PixStatusActive,
 	}
 
 	pix.ID = uuid.NewV4().String()

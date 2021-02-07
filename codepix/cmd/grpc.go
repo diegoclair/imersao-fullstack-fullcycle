@@ -16,11 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"log"
-
 	"github.com/diegoclair/imersao/codepix/application/grpc"
-	"github.com/diegoclair/imersao/codepix/domain/service"
-	"github.com/diegoclair/imersao/codepix/infrastructure/data"
 	"github.com/spf13/cobra"
 )
 
@@ -33,7 +29,7 @@ var grpcCmd = &cobra.Command{
 	Use:   "grpc",
 	Short: "To start grpc server on default port 50051",
 	Run: func(cmd *cobra.Command, args []string) {
-		startGrpcServer()
+		grpc.StartGrpcServer(port)
 	},
 }
 
@@ -50,15 +46,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// grpcCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func startGrpcServer() {
-	data, err := data.Connect()
-	if err != nil {
-		log.Fatalf("Error to connect data repositories: %v", err)
-	}
-
-	svc := service.New(data)
-
-	grpc.StartGrpcServer(svc, port)
 }
