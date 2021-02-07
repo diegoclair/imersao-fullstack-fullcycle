@@ -13,6 +13,7 @@ import (
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 )
 
+//KafkaProcessor holds kafka processor functions
 type KafkaProcessor struct {
 	Producer     *kafka.Producer
 	DeliveryChan chan kafka.Event
@@ -22,6 +23,7 @@ type KafkaProcessor struct {
 	transactionService contract.TransactionService
 }
 
+//NewKafkaProcessor return an instace of kafka processor
 func NewKafkaProcessor(producer *kafka.Producer, deliveryChan chan kafka.Event, factory *factory.Services) *KafkaProcessor {
 	return &KafkaProcessor{
 		Producer:     producer,
@@ -33,6 +35,7 @@ func NewKafkaProcessor(producer *kafka.Producer, deliveryChan chan kafka.Event, 
 	}
 }
 
+//Consume is to consume messages of a subscribed topics
 func (k *KafkaProcessor) Consume() {
 	configMap := &kafka.ConfigMap{
 		"bootstrap.servers": k.cfg.Kafka.BootstrapServers,
@@ -47,7 +50,7 @@ func (k *KafkaProcessor) Consume() {
 
 	topics := []string{k.cfg.Kafka.TransactionTopic, k.cfg.Kafka.TransactionConfirmationTopic}
 	c.SubscribeTopics(topics, nil)
-	log.Println("kafka consumer has been started")
+	log.Println("Kafka consumer has been started")
 
 	for {
 		msg, err := c.ReadMessage(-1)

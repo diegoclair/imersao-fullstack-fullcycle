@@ -16,20 +16,17 @@ limitations under the License.
 package cmd
 
 import (
+	"github.com/diegoclair/imersao/codepix/application"
 	"github.com/diegoclair/imersao/codepix/application/grpc"
 	"github.com/spf13/cobra"
 )
-
-var port int
-
-const defaultGRPCPort int = 50051
 
 // grpcCmd represents the grpc command
 var grpcCmd = &cobra.Command{
 	Use:   "grpc",
 	Short: "To start grpc server on default port 50051",
 	Run: func(cmd *cobra.Command, args []string) {
-		grpc.StartGrpcServer(port)
+		grpc.StartGrpcServer(application.GRPCPort)
 	},
 }
 
@@ -37,7 +34,7 @@ func init() {
 	rootCmd.AddCommand(grpcCmd)
 
 	// Here you will define your flags and configuration settings.
-	grpcCmd.Flags().IntVarP(&port, "port", "p", defaultGRPCPort, "gRPC server port")
+	grpcCmd.Flags().IntVarP(&application.GRPCPort, "port", "p", application.DefaultgRPCPort, "gRPC server port")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

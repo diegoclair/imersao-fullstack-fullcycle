@@ -1,7 +1,7 @@
 package server
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
@@ -43,9 +43,9 @@ func DeliveryReport(deliveryChan chan kafka.Event) {
 		switch event := e.(type) {
 		case *kafka.Message:
 			if event.TopicPartition.Error != nil {
-				fmt.Println("Delivery Faield", event.TopicPartition)
+				log.Println("Delivery Faield", event.TopicPartition)
 			} else {
-				fmt.Println("Delivered message to:", event.TopicPartition)
+				log.Println("Delivered message to:", event.TopicPartition)
 			}
 		}
 	}

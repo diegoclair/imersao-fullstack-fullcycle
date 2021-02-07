@@ -26,7 +26,7 @@ func StartGrpcServer(port int) {
 
 	registerGRPCServices(grpcServer)
 
-	fmt.Println("gRPC server is listening on port: ", port)
+	log.Println("gRPC server is listening on port: ", port)
 	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatal("Could not start gRPC server: ", err)
