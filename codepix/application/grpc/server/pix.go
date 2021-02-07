@@ -10,7 +10,7 @@ import (
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 )
 
-//PixServer is a struct to interact with services
+//PixServer holds pix server functions
 type PixServer struct {
 	pixService                       contract.PixService
 	mapper                           mapper.Mapper
@@ -25,9 +25,10 @@ func NewPixServer(factory *factory.Services) *PixServer {
 	}
 }
 
+//AddPixKey handle an add pix key request
 func (s *PixServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*pb.AddPixKeyResponse, error) {
 
-	key, err := s.pixService.RegisterKey(req.Key, req.Keytype, req.AccountID)
+	key, err := s.pixService.RegisterKey(req.Key, req.KeyType, req.AccountID)
 	if err != nil {
 		return nil, err
 	}
@@ -38,9 +39,10 @@ func (s *PixServer) AddPixKey(ctx context.Context, req *pb.AddPixKeyRequest) (*p
 	}, nil
 }
 
+//FindPixKeyByID handle a find pix key request
 func (s *PixServer) FindPixKeyByID(ctx context.Context, req *pb.FindPixKeyByIDRequest) (*pb.FindPixKeyByIDResponse, error) {
 
-	pix, err := s.pixService.FindKeyByID(req.Key, req.Keytype)
+	pix, err := s.pixService.FindKeyByID(req.Key, req.KeyType)
 	if err != nil {
 		return nil, err
 	}
