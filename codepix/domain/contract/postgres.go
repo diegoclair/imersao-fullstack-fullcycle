@@ -8,6 +8,7 @@ type PostgresRepo interface {
 	Bank() BankRepo
 	Pix() PixRepo
 	Transaction() TransactionRepo
+	Close() error
 }
 
 // AccountRepo defines the data set for account repo

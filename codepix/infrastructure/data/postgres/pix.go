@@ -27,10 +27,10 @@ func (r pixRepo) AddPixKey(pixKey *entity.Pix) (*entity.Pix, error) {
 	return pixKey, nil
 }
 
-func (r pixRepo) FindPixByKey(key, keytype string) (*entity.Pix, error) {
+func (r pixRepo) FindPixByKey(key, keyType string) (*entity.Pix, error) {
 	var pix entity.Pix
 
-	r.db.Preload("Account.Bank").First(&pix, "kind = ? and key = ?", keytype, key)
+	r.db.Preload("Account.Bank").First(&pix, "key_type = ? and key = ?", keyType, key)
 	if pix.ID == "" {
 		return nil, fmt.Errorf("no key was found")
 	}

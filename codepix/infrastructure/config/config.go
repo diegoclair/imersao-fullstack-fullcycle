@@ -56,6 +56,7 @@ func GetConfigEnvironment() *EnvironmentVariables {
 		config.Postgres.DBType = cast.ToString(viper.Get("dbTypePostgres"))
 		config.Postgres.DSNTest = cast.ToString(viper.Get("dsnTestPostgres"))
 		config.Postgres.DBTypeTest = cast.ToString(viper.Get("dbTypeTestPostgres"))
+		config.Postgres.AutoMigrate = cast.ToBool(viper.Get("autoMigrateDBPostgres"))
 		config.Kafka.BootstrapServers = cast.ToString(viper.Get("kafkaBootstrapServers"))
 		config.Kafka.ConsumerGroupID = cast.ToString(viper.Get("kafkaConsumerGroupID"))
 		config.Kafka.TransactionTopic = cast.ToString(viper.Get("kafkaTransactionTopic"))

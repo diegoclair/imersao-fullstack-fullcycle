@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"log"
 
 	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/imersao/codepix/application/factory"
@@ -47,15 +46,20 @@ func (s *PixServer) FindPixKeyByID(ctx context.Context, req *pb.FindPixKeyByIDRe
 		return nil, err
 	}
 
-	response := &pb.FindPixKeyByIDResponse{}
-	err = s.mapper.From(pix).To(&response)
-	if err != nil {
-		log.Println("Error to mapper response: ", err)
-		return nil, err
+	response := &pb.FindPixKeyByIDResponse{
+		Id:      pix.ID,
+		KeyType: pix.KeyType,
+		Key:     pix.Key,
+		Account: &pb.Account{
+			AccountID:     pix.Account.ID,
+			AccountNumber: pix.Account.Number,
+			BankID:        pix.Account.Bank.ID,
+			BankName:      pix.Account.Bank.Name,
+			OwnerName:     pix.Account.OwnerName,
+			CreatedAt:     pix.Account.CreatedAt.String(),
+		},
+		CreatedAt: pix.CreatedAt.String(),
 	}
-
-	response.Account.CreatedAt = pix.Account.CreatedAt.String()
-	response.CreatedAt = pix.CreatedAt.String()
 
 	return response, err
 }

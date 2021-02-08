@@ -11,7 +11,7 @@ import (
 type Account struct {
 	Base      `validate:"required"`
 	OwnerName string `gorm:"column:owner_name;type:varchar(255);not null" validate:"required"`
-	Bank      *Bank  `validate:"-"`
+	Bank      *Bank
 	BankID    string `gorm:"column:bank_id;type:uuid;not null"`
 	Number    string `json:"number" gorm:"type:varchar(20)" validate:"required"`
 	PixKeys   []*Pix `gorm:"ForeignKey:AccountID"`

@@ -1,6 +1,9 @@
 package postgres
 
 import (
+	"log"
+	"sync"
+
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
@@ -10,6 +13,12 @@ import (
 	_ "gorm.io/driver/sqlite"
 )
 
+var (
+	connection *postgres
+	onceDB     sync.Once
+	connErr    error
+)
+
 // postgres is the Database connection manager
 type postgres struct {
 	db *gorm.DB
@@ -17,35 +26,43 @@ type postgres struct {
 
 //Instance to create a connection with database
 func Instance() (contract.PostgresRepo, error) {
+	onceDB.Do(func() {
+		cfg := config.GetConfigEnvironment()
 
-	cfg := config.GetConfigEnvironment()
+		var dsn, dbType string
+		var db *gorm.DB
+		var err error
 
-	var dsn, dbType string
-	var db *gorm.DB
-	var err error
-
-	if cfg.Env == config.EnvironmentTest {
-		dsn = cfg.Postgres.DSNTest
-		dbType = cfg.Postgres.DBTypeTest
-	} else {
 		dsn = cfg.Postgres.DSN
 		dbType = cfg.Postgres.DBType
-	}
-	db, err = gorm.Open(dbType, dsn)
-	if err != nil {
-		return nil, err
-	}
 
-	db.LogMode(cfg.Debug)
+		if cfg.Env == config.EnvironmentTest {
+			dsn = cfg.Postgres.DSNTest
+			dbType = cfg.Postgres.DBTypeTest
+		}
 
-	if cfg.Postgres.AutoMigrate {
-		db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
-	}
+		db, err = gorm.Open(dbType, dsn)
+		if err != nil {
+			connErr = err
+		}
 
-	connection := &postgres{
-		db: db,
-	}
-	return connection, nil
+		db.LogMode(cfg.Debug)
+
+		if cfg.Postgres.AutoMigrate {
+			log.Println("Doing migrations...")
+			db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
+		}
+
+		connection = &postgres{
+			db: db,
+		}
+	})
+	return connection, connErr
+}
+
+// Close closes the db connection
+func (c *postgres) Close() (err error) {
+	return c.db.Close()
 }
 
 //Account returns the account set
