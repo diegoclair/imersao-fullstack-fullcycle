@@ -11,6 +11,8 @@ import { PixController } from './controllers/pix/pix.controller';
 import { Pix } from './models/pix.model';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { TransactionController } from './controllers/transaction/transaction.controller';
+import { Transaction } from './models/transaction.model';
 
 @Module({
   imports: [
@@ -23,9 +25,9 @@ import { join } from 'path';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [BankAccount, Pix]               //available entities
+      entities: [BankAccount, Pix, Transaction]               //available entities
     }),
-    TypeOrmModule.forFeature([BankAccount, Pix]), //what entities I'll use
+    TypeOrmModule.forFeature([BankAccount, Pix, Transaction]), //what entities I'll use
     ClientsModule.register([
       {
         name: 'CODEPIX_PACKAGE',
@@ -38,7 +40,7 @@ import { join } from 'path';
       }
     ])
   ],
-  controllers: [AppController, BankAccountController, PixController],
+  controllers: [AppController, BankAccountController, PixController, TransactionController],
   providers: [AppService, FixtureCommand],
 })
 export class AppModule {}

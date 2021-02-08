@@ -13,7 +13,7 @@ export class CreatePixTable1612745703956 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: 'keyType',
+                        name: 'key_type',
                         type: 'varchar'
                     },
                     {

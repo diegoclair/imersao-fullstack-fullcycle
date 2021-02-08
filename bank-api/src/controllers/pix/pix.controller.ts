@@ -8,7 +8,7 @@ import { BankAccount } from 'src/models/bank-account.model';
 import { Pix } from 'src/models/pix.model';
 import { Repository } from 'typeorm';
 
-@Controller('pix-keys')
+@Controller('/bank_accounts/:bank_account_id/pix-keys')
 export class PixController {
 
     constructor(
@@ -22,7 +22,7 @@ export class PixController {
         
     }
 
-    @Get('/account/:bank_account_id')
+    @Get('')
     index(
         @Param('bank_account_id', new ParseUUIDPipe({version: '4'})
         ) bankAccountID: string
@@ -37,7 +37,7 @@ export class PixController {
         })
     }
     
-    @Post('/account/:bank_account_id')
+    @Post('')
     async store(
         @Param('bank_account_id', new ParseUUIDPipe({version: '4'})
         ) bankAccountID: string,
@@ -53,7 +53,8 @@ export class PixController {
         }
 
         const createdPixKey = await pixService.addPixKey({
-            ...body,
+            key: body.key,
+            keyType: body.key_type,
             accountID: bankAccountID
         }).toPromise();
 
@@ -70,10 +71,10 @@ export class PixController {
         return await this.pixRepo.save(pix)
     }
 
-    async checkPixExists(params: {key: string, keyType: string}) {
+    async checkPixExists(params: {key: string, key_type: string}) {
         const pixService: PixService = this.client.getService('PixService');
         try {
-            await pixService.findPixKeyByID(params).toPromise()
+            await pixService.findPixKeyByID({key: params.key, keyType: params.key_type}).toPromise()
             return true;
         } catch (error) {
             if(error.details === "no key was found") {
@@ -81,19 +82,18 @@ export class PixController {
             }
             throw new InternalServerErrorException("Server not available");
         }
-
     }
 
     @Get('/exists')
     @HttpCode(204)
     async exists(
-        @Query(new ValidationPipe({errorHttpStatusCode: 422})) //default is 400, for invalid boddy we use 422
+        @Query(new ValidationPipe({errorHttpStatusCode: 422})) //default is 400, for invalid body we use 422
         params: PixExistsDto
     ){
 
         const pixService: PixService = this.client.getService('PixService');
         try {
-            await pixService.findPixKeyByID(params).toPromise()
+            await pixService.findPixKeyByID({key: params.key, keyType: params.key_type}).toPromise()
         } catch (e) {
             if(e.details === "no key was found") {
                 throw new NotFoundException(e.details)
