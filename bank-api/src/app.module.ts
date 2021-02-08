@@ -30,7 +30,7 @@ import { Transaction } from './models/transaction.model';
     TypeOrmModule.forFeature([BankAccount, Pix, Transaction]), //what entities I'll use
     ClientsModule.register([
       {
-        name: 'CODEPIX_PACKAGE',
+        name: 'GRPC_CODEPIX_PACKAGE',
         transport: Transport.GRPC,
         options: {
           url: process.env.GRPC_URL,
@@ -38,7 +38,26 @@ import { Transaction } from './models/transaction.model';
           protoPath: [join(__dirname, 'protofiles/pix.proto')]
         }
       }
-    ])
+    ]),
+    ClientsModule.register([
+      {
+        name: 'KAFKA_CODEPIX_TRANSACTION_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: process.env.KAFKA_CLIENT_ID,
+            brokers: [process.env.KAFKA_BROKER]
+          },
+          consumer: {
+            //for dev we generate a random groupID, in production, needs to be a fixed one
+            groupId: !process.env.KAFKA_CONSUMER_GROUP_ID ||
+              process.env.KAFKA_CONSUMER_GROUP_ID === ''
+                ? 'my-consumer-' + Math.random()
+                : process.env.KAFKA_CONSUMER_GROUP_ID,
+          }
+        },
+      },
+    ]),
   ],
   controllers: [AppController, BankAccountController, PixController, TransactionController],
   providers: [AppService, FixtureCommand],

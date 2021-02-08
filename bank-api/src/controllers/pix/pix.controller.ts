@@ -16,7 +16,7 @@ export class PixController {
         private pixRepo: Repository<Pix>,
         @InjectRepository(BankAccount)
         private bankAccountRepo: Repository<BankAccount>,
-        @Inject('CODEPIX_PACKAGE') //the same we are using on app.module
+        @Inject('GRPC_CODEPIX_PACKAGE') //the same we are using on app.module
         private client: ClientGrpc
     ){
         
