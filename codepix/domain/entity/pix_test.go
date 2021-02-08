@@ -23,7 +23,7 @@ func TestModel_NewPixKey(t *testing.T) {
 	pix, err := entity.NewPix(keytype, account, key)
 
 	require.NotEmpty(t, uuid.FromStringOrNil(pix.ID))
-	require.Equal(t, pix.Keytype, keytype)
+	require.Equal(t, pix.KeyType, keytype)
 	require.Equal(t, pix.Status, "active")
 
 	keytype = domain.PixKeytypeCPF
