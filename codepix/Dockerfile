@@ -6,8 +6,6 @@ ENV PATH="/go/bin:${PATH}"
 ENV GO111MODULE=on
 ENV CGO_ENABLED=1
 
-RUN useradd -ms /bin/bash go 
-
 #install grpc and lib for kafka
 RUN apt-get update && \
     apt-get install build-essential protobuf-compiler librdkafka-dev -y && \
@@ -17,7 +15,5 @@ RUN apt-get update && \
     wget https://github.com/ktr0731/evans/releases/download/0.9.1/evans_linux_amd64.tar.gz && \
     tar -xzvf evans_linux_amd64.tar.gz && \
     mv evans ../bin && rm -f evans_linux_amd64.tar.gz
-
-USER go
 
 CMD ["tail", "-f", "/dev/null"]
