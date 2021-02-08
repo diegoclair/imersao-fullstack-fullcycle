@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"log"
+
 	"github.com/diegoclair/imersao/codepix/domain/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
@@ -24,13 +26,14 @@ func Instance() (contract.PostgresRepo, error) {
 	var db *gorm.DB
 	var err error
 
+	dsn = cfg.Postgres.DSN
+	dbType = cfg.Postgres.DBType
+
 	if cfg.Env == config.EnvironmentTest {
 		dsn = cfg.Postgres.DSNTest
 		dbType = cfg.Postgres.DBTypeTest
-	} else {
-		dsn = cfg.Postgres.DSN
-		dbType = cfg.Postgres.DBType
 	}
+
 	db, err = gorm.Open(dbType, dsn)
 	if err != nil {
 		return nil, err
@@ -38,7 +41,9 @@ func Instance() (contract.PostgresRepo, error) {
 
 	db.LogMode(cfg.Debug)
 
+	log.Println("AutoMigrate: ", cfg.Postgres.AutoMigrate)
 	if cfg.Postgres.AutoMigrate {
+		log.Println("Doing migrations...")
 		db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
 	}
 
