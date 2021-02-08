@@ -4,8 +4,8 @@ import "github.com/diegoclair/imersao/codepix/domain/entity"
 
 // PixService holds a pix service operations
 type PixService interface {
-	FindKeyByID(key, kind string) (*entity.Pix, error)
-	RegisterKey(key, kind, accountID string) (*entity.Pix, error)
+	FindKeyByID(key, ketType string) (*entity.Pix, error)
+	RegisterKey(key, ketType, accountID string) (*entity.Pix, error)
 }
 
 // TransactionService holds a transaction service operations

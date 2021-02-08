@@ -13,7 +13,7 @@ export class Pix {
     id: string;
 
     @Column()
-    key_type: PixKeyType;
+    keyType: PixKeyType;
 
     @Column()
     key: string;
