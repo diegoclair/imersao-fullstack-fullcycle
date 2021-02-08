@@ -48,6 +48,11 @@ func Instance() (contract.PostgresRepo, error) {
 	return connection, nil
 }
 
+// Close closes the db connection
+func (c *postgres) Close() (err error) {
+	return c.db.Close()
+}
+
 //Account returns the account set
 func (c *postgres) Account() contract.AccountRepo {
 	return newAccountRepo(c.db)
