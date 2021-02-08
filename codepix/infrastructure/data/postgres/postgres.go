@@ -41,7 +41,6 @@ func Instance() (contract.PostgresRepo, error) {
 
 	db.LogMode(cfg.Debug)
 
-	log.Println("AutoMigrate: ", cfg.Postgres.AutoMigrate)
 	if cfg.Postgres.AutoMigrate {
 		log.Println("Doing migrations...")
 		db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
