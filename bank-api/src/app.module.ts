@@ -7,6 +7,8 @@ import { BankAccount } from './models/bank-account.model';
 import { BankAccountController } from './controllers/bank-account/bank-account.controller';
 import { ConsoleModule } from 'nestjs-console';
 import { FixtureCommand } from './fixtures/fixtures.command';
+import { PixController } from './controllers/pix/pix.controller';
+import { Pix } from './models/pix.model';
 
 @Module({
   imports: [
@@ -19,11 +21,11 @@ import { FixtureCommand } from './fixtures/fixtures.command';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [BankAccount]               //available entities
+      entities: [BankAccount, Pix]               //available entities
     }),
-    TypeOrmModule.forFeature([BankAccount]) //what entities I'll use
+    TypeOrmModule.forFeature([BankAccount, Pix]) //what entities I'll use
   ],
-  controllers: [AppController, BankAccountController],
+  controllers: [AppController, BankAccountController, PixController],
   providers: [AppService, FixtureCommand],
 })
 export class AppModule {}
