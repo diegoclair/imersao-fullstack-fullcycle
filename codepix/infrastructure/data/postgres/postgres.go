@@ -1,7 +1,6 @@
 package postgres
 
 import (
-	"log"
 	"sync"
 
 	"github.com/diegoclair/imersao/codepix/domain/contract"
@@ -49,7 +48,6 @@ func Instance() (contract.PostgresRepo, error) {
 		db.LogMode(cfg.Debug)
 
 		if cfg.Postgres.AutoMigrate {
-			log.Println("Doing migrations...")
 			db.AutoMigrate(&entity.Bank{}, &entity.Account{}, &entity.Pix{}, &entity.Transaction{})
 		}
 
