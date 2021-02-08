@@ -5,6 +5,9 @@ create-migration:
 run-migrations:
 	npm run typeorm migration:run
 
+run-fixtures:
+	npm run console fixtures
+
 create-model:
 	echo "creating model for $${name:?please, you need to pass the model name like name=model_name \$$name}"
 	npm run typeorm entity:create -- -n ${name}
