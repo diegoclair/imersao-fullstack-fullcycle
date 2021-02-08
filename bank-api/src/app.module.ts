@@ -9,6 +9,8 @@ import { ConsoleModule } from 'nestjs-console';
 import { FixtureCommand } from './fixtures/fixtures.command';
 import { PixController } from './controllers/pix/pix.controller';
 import { Pix } from './models/pix.model';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -23,7 +25,18 @@ import { Pix } from './models/pix.model';
       database: process.env.TYPEORM_DATABASE,
       entities: [BankAccount, Pix]               //available entities
     }),
-    TypeOrmModule.forFeature([BankAccount, Pix]) //what entities I'll use
+    TypeOrmModule.forFeature([BankAccount, Pix]), //what entities I'll use
+    ClientsModule.register([
+      {
+        name: 'CODEPIX_PACKAGE',
+        transport: Transport.GRPC,
+        options: {
+          url: process.env.GRPC_URL,
+          package: 'github.com.diegoclair.codepix', // is the protofile package
+          protoPath: [join(__dirname, 'protofiles/pix.proto')]
+        }
+      }
+    ])
   ],
   controllers: [AppController, BankAccountController, PixController],
   providers: [AppService, FixtureCommand],
