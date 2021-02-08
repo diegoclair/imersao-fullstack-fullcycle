@@ -1,13 +1,14 @@
-import { Body, Controller, Get, Inject, InternalServerErrorException, Param, ParseUUIDPipe, Post, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, InternalServerErrorException, NotFoundException, Param, ParseUUIDPipe, Post, Query, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PixExistsDto } from 'src/dto/pix-exists.dto';
 import { PixDto } from 'src/dto/pix.dto';
 import { PixService } from 'src/grpc-types/pix-service.grpc';
 import { BankAccount } from 'src/models/bank-account.model';
 import { Pix } from 'src/models/pix.model';
 import { Repository } from 'typeorm';
 
-@Controller('bank-accounts/:bank_account_id/pix-keys')
+@Controller('pix-keys')
 export class PixController {
 
     constructor(
@@ -21,7 +22,7 @@ export class PixController {
         
     }
 
-    @Get()
+    @Get('/account/:bank_account_id')
     index(
         @Param('bank_account_id', new ParseUUIDPipe({version: '4'})
         ) bankAccountID: string
@@ -36,7 +37,7 @@ export class PixController {
         })
     }
     
-    @Post()
+    @Post('/account/:bank_account_id')
     async store(
         @Param('bank_account_id', new ParseUUIDPipe({version: '4'})
         ) bankAccountID: string,
@@ -83,6 +84,22 @@ export class PixController {
 
     }
 
-    @Get('exists')
-    exists(){}
+    @Get('/exists')
+    @HttpCode(204)
+    async exists(
+        @Query(new ValidationPipe({errorHttpStatusCode: 422})) //default is 400, for invalid boddy we use 422
+        params: PixExistsDto
+    ){
+
+        const pixService: PixService = this.client.getService('PixService');
+        try {
+            await pixService.findPixKeyByID(params).toPromise()
+        } catch (e) {
+            if(e.details === "no key was found") {
+                throw new NotFoundException(e.details)
+            }
+            throw new InternalServerErrorException("Server not available");
+        }
+    
+    }
 }
