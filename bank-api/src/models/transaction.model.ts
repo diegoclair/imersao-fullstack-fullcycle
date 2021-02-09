@@ -5,6 +5,7 @@ import {v4 as uuidv4} from 'uuid';
 export enum TransactionStatus{
     pending = 'pending',
     completed = 'completed',
+    confirmed = 'confirmed',
     error = 'error',
 };
 

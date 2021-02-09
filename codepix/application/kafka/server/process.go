@@ -32,6 +32,7 @@ func NewKafkaProcessor(kfk contract.KafkaManager, deliveryChan chan kafka.Event,
 	if err != nil {
 		panic(err)
 	}
+
 	consumer, err := kfk.Kafka().NewConsumer()
 	if err != nil {
 		panic(err)
@@ -41,6 +42,7 @@ func NewKafkaProcessor(kfk contract.KafkaManager, deliveryChan chan kafka.Event,
 		Consumer:     consumer,
 		Producer:     producer,
 		DeliveryChan: deliveryChan,
+		kfk:          kfk,
 
 		cfg:                factory.Cfg,
 		pixService:         factory.PixService,
@@ -108,7 +110,6 @@ func (k *KafkaProcessor) processTransactionMessage(transaction *model.Transactio
 }
 
 func (k *KafkaProcessor) saveTransaction(transaction *model.Transaction) (*entity.Transaction, error) {
-
 	return k.transactionService.Register(
 		transaction.AccountID,
 		transaction.PixKeyTo,
@@ -130,6 +131,7 @@ func (k *KafkaProcessor) processTransactionConfirmationMessage(transaction *mode
 		topic := "bank" + confirmedTransaction.AccountFrom.Bank.Code
 		return k.sendToSourceBank(topic, transaction)
 	}
+
 	if transaction.Status == domain.TransactionCompleted {
 		_, err := k.transactionService.Complete(transaction.ID)
 		if err != nil {

@@ -6,13 +6,16 @@ import (
 )
 
 type kafkaService struct {
+	kfk contract.KafkaService
 	cfg *config.EnvironmentVariables
 }
 
 // NewKafkaManager return a kafka service instance
 func NewKafkaManager(cfg *config.EnvironmentVariables) contract.KafkaManager {
+	kfk := new(kafkaService)
 	return &kafkaService{
 		cfg: cfg,
+		kfk: kfk.Kafka(),
 	}
 }
 
