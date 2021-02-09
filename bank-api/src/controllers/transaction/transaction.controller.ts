@@ -94,7 +94,7 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy{
         });
     }
 
-    @MessagePattern('bank001') //this means what topic we want to stay listening
+    @MessagePattern(`bank${process.env.BANK_CODE}`) //MessagePattern means what topic we want to stay listening
     async doTransaction(@Payload() message){ //payload is to receive the message from kafka topic
         
         if(message.value.status === TransactionStatus.pending){

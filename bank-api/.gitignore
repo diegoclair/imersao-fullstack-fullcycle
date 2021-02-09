@@ -3,6 +3,12 @@
 /node_modules
 .docker/.pgdata
 
+/dist-bbx
+.docker/.pgdatabbx
+
+/dist-cter
+.docker/.pgdatacter
+
 # Logs
 logs
 *.log

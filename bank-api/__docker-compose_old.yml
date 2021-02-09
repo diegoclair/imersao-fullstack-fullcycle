@@ -4,7 +4,7 @@ services:
   app: 
     build: .
     entrypoint: .docker/entrypoint.sh
-    container_name: 'imersao-next-bank'
+    container_name: imersao-next-bank
     ports:
     - 3000:3000
     volumes:
@@ -16,11 +16,10 @@ services:
 
   db:
     build: .docker/postgres
-    container_name: 'imersao-next-bank-db'
+    container_name: imersao-next-bank-db
     tty: true
     volumes:
-      - .docker/.pgdata:/var/lib/postgresql/data
+      - .docker/.pgdatabbx:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=nest
-    
