@@ -5,7 +5,7 @@ services:
   app_bbx: 
     build: .
     entrypoint: .docker/entrypoint.sh
-    container_name: imersao-next-bank-bbx
+    container_name: imersao-nest-bank-bbx
     environment:
       - TYPEORM_DATABASE=bbx
       - TYPEORM_HOST=db_bbx
@@ -24,7 +24,7 @@ services:
 
   db_bbx:
     build: .docker/postgres
-    container_name: imersao-next-bank-db-bbx
+    container_name: imersao-nest-bank-db-bbx
     tty: true
     volumes:
       - .docker/.pgdatabbx:/var/lib/postgresql/data

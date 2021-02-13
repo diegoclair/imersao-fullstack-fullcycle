@@ -5,7 +5,7 @@ services:
   app_cter: 
     build: .
     entrypoint: .docker/entrypoint.sh
-    container_name: imersao-next-bank-cter
+    container_name: imersao-nest-bank-cter
     environment:
       - TYPEORM_DATABASE=cter
       - TYPEORM_HOST=db_cter
@@ -24,7 +24,7 @@ services:
 
   db_cter:
     build: .docker/postgres
-    container_name: imersao-next-bank-db-cter
+    container_name: imersao-nest-bank-db-cter
     tty: true
     volumes:
       - .docker/.pgdatacter:/var/lib/postgresql/data
