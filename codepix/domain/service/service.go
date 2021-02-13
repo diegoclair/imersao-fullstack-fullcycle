@@ -1,6 +1,6 @@
 package service
 
-import "github.com/diegoclair/imersao/codepix/domain/contract"
+import "github.com/diegoclair/imersao/codepix/contract"
 
 // Service holds the domain service repositories
 type Service struct {

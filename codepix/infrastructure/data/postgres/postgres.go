@@ -3,7 +3,7 @@ package postgres
 import (
 	"sync"
 
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 	"github.com/jinzhu/gorm"

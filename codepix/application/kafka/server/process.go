@@ -7,8 +7,8 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/diegoclair/imersao/codepix/application/factory"
 	"github.com/diegoclair/imersao/codepix/application/kafka/model"
+	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain"
-	"github.com/diegoclair/imersao/codepix/domain/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 )

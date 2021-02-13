@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 )
 
