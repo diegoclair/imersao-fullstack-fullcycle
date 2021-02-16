@@ -8,7 +8,7 @@ import { BankAccount } from 'src/models/bank-account.model';
 import { Pix } from 'src/models/pix.model';
 import { Repository } from 'typeorm';
 
-@Controller('/bank_accounts/:bank_account_id/pix-keys')
+@Controller('/bank-accounts/:bank_account_id/pix-keys')
 export class PixController {
 
     constructor(
