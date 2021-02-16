@@ -3,31 +3,31 @@ export interface BankAccount {
     account_number: string;
     owner_name: string;
     balance: number;
-  }
-  
-  export interface PixKey {
+}
+
+export interface PixKey {
     id: string;
     kind: PixKeyKind;
     key: string;
-  }
-  
-  export enum PixKeyKind {
+}
+
+export enum PixKeyKind {
     cpf = "cpf",
     email = "email",
-  }
-  
-  export enum TransactionStatus {
+}
+
+export enum TransactionStatus {
     pending = "pending",
     completed = "completed",
     error = "error",
-  }
-  
-  export enum TransactionOperation {
+}
+
+export enum TransactionOperation {
     debit = "debit",
     credit = "credit",
-  }
-  
-  export interface Transaction {
+}
+
+export interface Transaction {
     id: string;
     amount: number;
     description: string;
@@ -38,5 +38,4 @@ export interface BankAccount {
     status: TransactionStatus;
     operation: TransactionOperation;
     created_at: string;
-  }
-  
+}
