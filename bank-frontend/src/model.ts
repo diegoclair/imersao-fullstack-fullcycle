@@ -5,13 +5,13 @@ export interface BankAccount {
     balance: number;
 }
 
-export interface PixKey {
+export interface Pix {
     id: string;
-    kind: PixKeyKind;
+    key_type: PixKeyType;
     key: string;
 }
 
-export enum PixKeyKind {
+export enum PixKeyType {
     cpf = "cpf",
     email = "email",
 }
@@ -34,7 +34,7 @@ export interface Transaction {
     bank_account_id: string;
     bank_account_from_id: string;
     pix_key_key: string;
-    pix_key_kind: PixKeyKind;
+    pix_key_kind: PixKeyType;
     status: TransactionStatus;
     operation: TransactionOperation;
     created_at: string;
