@@ -8,7 +8,7 @@ import { Pix, PixKeyType } from 'src/models/pix.model';
 import { Transaction, TransactionOperation, TransactionStatus } from 'src/models/transaction.model';
 import { Repository } from 'typeorm';
 
-@Controller('bank_accounts/:bank_account_id/transactions')
+@Controller('bank-accounts/:bank_account_id/transactions')
 export class TransactionController implements OnModuleInit, OnModuleDestroy{
     
     private kafkaProducer: Producer;
