@@ -11,6 +11,7 @@ interface BankAccountsListProps {
     bankAccounts: BankAccount[];
 }
 
+//We use NextPage for our pages and React.FC for components
 const BankAccountsList: NextPage<BankAccountsListProps> = (props) => {
 
     const {bankAccounts} = props; 
