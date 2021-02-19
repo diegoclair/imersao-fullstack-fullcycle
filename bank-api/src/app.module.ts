@@ -11,6 +11,9 @@ import { PixController } from './controllers/pix/pix.controller';
 import { Pix } from './models/pix.model';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { TransactionController } from './controllers/transaction/transaction.controller';
+import { Transaction } from './models/transaction.model';
+import { TransactionSubscriber } from './subscribers/transaction-subscriber/transaaction-subscriber.service';
 
 @Module({
   imports: [
@@ -23,12 +26,12 @@ import { join } from 'path';
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [BankAccount, Pix]               //available entities
+      entities: [BankAccount, Pix, Transaction]               //available entities
     }),
-    TypeOrmModule.forFeature([BankAccount, Pix]), //what entities I'll use
+    TypeOrmModule.forFeature([BankAccount, Pix, Transaction]), //what entities I'll use
     ClientsModule.register([
       {
-        name: 'CODEPIX_PACKAGE',
+        name: 'GRPC_CODEPIX_PACKAGE',
         transport: Transport.GRPC,
         options: {
           url: process.env.GRPC_URL,
@@ -36,9 +39,28 @@ import { join } from 'path';
           protoPath: [join(__dirname, 'protofiles/pix.proto')]
         }
       }
-    ])
+    ]),
+    ClientsModule.register([
+      {
+        name: 'KAFKA_CODEPIX_TRANSACTION_SERVICE',
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            clientId: process.env.KAFKA_CLIENT_ID,
+            brokers: [process.env.KAFKA_BROKER]
+          },
+          consumer: {
+            //for dev we generate a random groupID, in production, needs to be a fixed one
+            groupId: !process.env.KAFKA_CONSUMER_GROUP_ID ||
+              process.env.KAFKA_CONSUMER_GROUP_ID === ''
+                ? 'my-consumer-' + Math.random()
+                : process.env.KAFKA_CONSUMER_GROUP_ID,
+          }
+        },
+      },
+    ]),
   ],
-  controllers: [AppController, BankAccountController, PixController],
-  providers: [AppService, FixtureCommand],
+  controllers: [AppController, BankAccountController, PixController, TransactionController],
+  providers: [AppService, FixtureCommand, TransactionSubscriber],
 })
 export class AppModule {}

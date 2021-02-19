@@ -1,0 +1,14 @@
+//when we use .module.scss it generates a scopped class, so we can have another root class in other component and it wll handles classes names.
+//when we use the className, we use the name for example {classes.root} and the module will handle the name
+//And if we not use .module.scss the lint will understand as a global style and it will ask you for move to styles folder
+
+@import "styles/sass/variables";
+
+.root {
+    background-color: $primary;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}

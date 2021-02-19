@@ -9,5 +9,5 @@ export class PixExistsDto {
     @IsString()
     @IsIn(Object.values(PixKeyType))
     @IsNotEmpty()
-    readonly keyType: PixKeyType
+    readonly key_type: PixKeyType
 }

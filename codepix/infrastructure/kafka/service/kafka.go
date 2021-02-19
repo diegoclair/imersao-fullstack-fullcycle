@@ -42,6 +42,7 @@ func (s *KafkaService) NewProducer() (*kafka.Producer, error) {
 
 //Publish to publish a message into a kafka topic
 func (s *KafkaService) Publish(msg, topic string, producer *kafka.Producer, deliveryChan chan kafka.Event) error {
+
 	message := &kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
 		Value:          []byte(msg),
@@ -51,6 +52,7 @@ func (s *KafkaService) Publish(msg, topic string, producer *kafka.Producer, deli
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

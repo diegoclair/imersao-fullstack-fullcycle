@@ -6,7 +6,7 @@ import (
 	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/imersao/codepix/application/factory"
 	"github.com/diegoclair/imersao/codepix/application/grpc/pb"
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/contract"
 )
 
 //PixServer holds pix server functions

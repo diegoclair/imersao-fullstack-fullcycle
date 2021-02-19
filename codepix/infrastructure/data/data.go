@@ -3,19 +3,9 @@ package data
 import (
 	"log"
 
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/infrastructure/data/postgres"
 )
-
-// func init() {
-// 	_, b, _, _ := runtime.Caller(0)
-// 	basepath := filepath.Dir(b)
-
-// 	err := godotenv.Load(basepath + "/../../.env")
-// 	if err != nil {
-// 		log.Fatal("Error loading .env files")
-// 	}
-// }
 
 //we can add here more than one database
 type data struct {

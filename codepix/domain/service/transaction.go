@@ -3,7 +3,7 @@ package service
 import (
 	"log"
 
-	"github.com/diegoclair/imersao/codepix/domain/contract"
+	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
 )
 
@@ -18,7 +18,7 @@ func newTransactionService(svc *Service) contract.TransactionService {
 	}
 }
 
-func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, id, description string, amount float64) (*entity.Transaction, error) {
+func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description, id string, amount float64) (*entity.Transaction, error) {
 
 	account, err := s.svc.db.Postgres().Account().FindAccountByID(accountIDFrom)
 	if err != nil {
@@ -51,11 +51,7 @@ func (s *transactionService) Confirm(transactionID string) (*entity.Transaction,
 		return nil, err
 	}
 
-	err = transaction.Confirm()
-	if err != nil {
-		log.Println("transactionUseCase.Confirm.Confirm", err)
-		return nil, err
-	}
+	transaction.Confirm()
 
 	err = s.svc.db.Postgres().Transaction().Save(transaction)
 	if err != nil {
@@ -74,11 +70,7 @@ func (s *transactionService) Complete(transactionID string) (*entity.Transaction
 		return nil, err
 	}
 
-	err = transaction.Complete()
-	if err != nil {
-		log.Println("transactionUseCase.Complete.Complete", err)
-		return nil, err
-	}
+	transaction.Complete()
 
 	err = s.svc.db.Postgres().Transaction().Save(transaction)
 	if err != nil {
@@ -97,11 +89,7 @@ func (s *transactionService) Error(transactionID, reason string) (*entity.Transa
 		return nil, err
 	}
 
-	err = transaction.Cancel(reason)
-	if err != nil {
-		log.Println("transactionUseCase.Error.Cancel", err)
-		return nil, err
-	}
+	transaction.Cancel(reason)
 
 	err = s.svc.db.Postgres().Transaction().Save(transaction)
 	if err != nil {

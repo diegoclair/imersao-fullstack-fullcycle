@@ -13,13 +13,13 @@ import (
 type Transaction struct {
 	Base              `validate:"required"`
 	AccountFrom       *Account `validate:"required,dive,required"`
-	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" validate:"required,gt=0"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" validate:"required,uuid4,gt=0"`
 	Amount            float64  `json:"amount" gorm:"type:float" validate:"required"`
-	PixTo             *Pix     `validate:"required,dive,required"`
-	PixKeyToID        string   `gorm:"column:pix_key_to_id;type:uuid;" validate:"required,uuid4"`
-	Status            string   `json:"status" gorm:"type:varchar(20)" validate:"required"`
-	Description       string   `json:"description" gorm:"type:varchar(255)" validate:"required"`
-	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" `
+	PixTo             *Pix
+	PixKeyToID        string `gorm:"column:pix_key_to_id;type:uuid;" validate:"required,uuid4"`
+	Status            string `json:"status" gorm:"type:varchar(20)" validate:"required"`
+	Description       string `json:"description" gorm:"type:varchar(255)" validate:"required"`
+	CancelDescription string `json:"cancel_description" gorm:"type:varchar(255)" `
 }
 
 func (t *Transaction) isValid() error {
@@ -65,23 +65,22 @@ func NewTransaction(accountFrom *Account, amount float64, pixTo *Pix, descriptio
 }
 
 //Confirm to set confirmed to transaction status
-func (t *Transaction) Confirm() error {
-	return t.setStatus(domain.TransactionCompleted)
+func (t *Transaction) Confirm() {
+	t.setStatus(domain.TransactionCompleted)
 }
 
 //Complete to set completed to transaction status
-func (t *Transaction) Complete() error {
-	return t.setStatus(domain.TransactionCompleted)
+func (t *Transaction) Complete() {
+	t.setStatus(domain.TransactionCompleted)
 }
 
 //Cancel to set canceled to transaction status
-func (t *Transaction) Cancel(reason string) error {
+func (t *Transaction) Cancel(reason string) {
 	t.CancelDescription = reason
-	return t.setStatus(domain.TransactionError)
+	t.setStatus(domain.TransactionError)
 }
 
-func (t *Transaction) setStatus(status string) error {
+func (t *Transaction) setStatus(status string) {
 	t.Status = status
 	t.UpdatedAt = time.Now()
-	return t.isValid()
 }
