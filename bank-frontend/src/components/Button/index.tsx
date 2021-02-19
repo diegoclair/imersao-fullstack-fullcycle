@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import BankContext from '../../context/BankContext';
 
 interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     variant?: 'primary' | 'info';
@@ -12,10 +13,12 @@ const buttonClasses = {
 const Button = React.forwardRef<any, ButtonProps>((props, ref) => {
     const {variant = 'primary', ...rest} = props;
 
+    const bank = useContext(BankContext);
+
     const className = [
         'btn', 
         buttonClasses[variant], 
-        'bank001',
+        `${bank.cssCode}`,
         props.className
     ].join(' ').trim();
 

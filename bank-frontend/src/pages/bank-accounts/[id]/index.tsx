@@ -8,6 +8,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { bankHttp } from '../../../util/http';
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
+import BankContext from '../../../context/BankContext';
 
 //This file is an example that we can create components and the page in the same file
 
@@ -19,9 +20,11 @@ interface ActionLinkProps extends LinkProps { }
 const ActionLink: React.FunctionComponent<ActionLinkProps> = (props) => {
     const { children, ...rest } = props;
 
+    const bank = React.useContext(BankContext);
+
     return (
         <Link {...rest}>
-            <a className={`${classes.actionLink} ${classes.bank001}`}>{children}</a>
+            <a className={`${classes.actionLink} ${classes[bank.cssCode]}`}>{children}</a>
         </Link>
     );
 };
