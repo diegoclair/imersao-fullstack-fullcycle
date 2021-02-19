@@ -65,7 +65,7 @@ const BankAccountDashboard: NextPage<BankAccountDashboardProps> = (props) => {
     const { bankAccount, transactions } = props;
 
     return (
-        <Layout>
+        <Layout bankAccount={bankAccount}>
             <Header bankAccount={bankAccount} />
             <div>
                 <h1 className={classes.titleTable}>Últimos lançamentos</h1>

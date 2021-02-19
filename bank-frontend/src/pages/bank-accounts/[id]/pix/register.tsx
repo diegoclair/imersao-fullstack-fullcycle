@@ -6,7 +6,7 @@ import Input from '../../../../components/Input';
 import Layout from '../../../../components/Layout';
 import PixCard from '../../../../components/PixCard';
 import Title from '../../../../components/Title';
-import { Pix } from '../../../../model';
+import { BankAccount, Pix } from '../../../../model';
 import { bankHttp } from '../../../../util/http';
 import FormButtonActions from '../../../../components/FormButtonActions';
 import Button from '../../../../components/Button';
@@ -16,12 +16,13 @@ import {useForm} from 'react-hook-form'
 import Modal from '../../../../util/modal';
 
 interface PixRegisterProps {
+    bankAccount: BankAccount
     pixKeys: Pix[];
 }
 
 const PixRegister: React.FC<PixRegisterProps> = (props) => {
     
-    const {pixKeys} = props
+    const {pixKeys, bankAccount} = props;
     const {query: {id}, push} = useRouter();
 
     const {register, handleSubmit} = useForm();
@@ -45,7 +46,7 @@ const PixRegister: React.FC<PixRegisterProps> = (props) => {
     }
 
     return (
-        <Layout>
+        <Layout bankAccount={bankAccount}>
             <div className="row">
                 <div className="col-sm-6">
                     <Title>Cadastrar chave pix</Title>
@@ -95,11 +96,16 @@ export default PixRegister;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const {query: {id}} = ctx;
-    const {data: pixKeys} = await bankHttp.get(`bank-accounts/${id}/pix-keys`)
+
+    const [{data: pixKeys}, {data: bankAccount}] = await Promise.all([
+        await bankHttp.get(`bank-accounts/${id}/pix-keys`),
+        await bankHttp.get(`bank-accounts/${id}`),
+    ]);
 
     return {
         props: {
             pixKeys,
+            bankAccount,
         }
     }
 }

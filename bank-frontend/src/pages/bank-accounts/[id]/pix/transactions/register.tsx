@@ -9,15 +9,18 @@ import Input from '../../../../../components/Input';
 import Layout from '../../../../../components/Layout'
 import Select from '../../../../../components/Select';
 import Title from '../../../../../components/Title';
+import { BankAccount } from '../../../../../model';
 import { bankHttp } from '../../../../../util/http';
 import Modal from '../../../../../util/modal';
 
 interface Props {
-
+    bankAccount: BankAccount
 }
 
-const TransactionRegister: NextPage<Props> = () => {
+const TransactionRegister: NextPage<Props> = (props) => {
     
+    const {bankAccount} = props;
+
     const {register, handleSubmit} = useForm();
     const {query: {id}, push} = useRouter();
 
@@ -47,7 +50,7 @@ const TransactionRegister: NextPage<Props> = () => {
 
     return (
         <div>
-            <Layout>
+            <Layout bankAccount={bankAccount}>
                 <Title>Realizar transferência</Title>
                 <Card>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -91,8 +94,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
       const { data: bankAccount } = await bankHttp.get(`bank-accounts/${id}`);
 
-      console.log({bankAccount})
-    
       return {
         props: {
           bankAccount,
