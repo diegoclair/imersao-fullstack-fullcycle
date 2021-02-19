@@ -3,22 +3,40 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 First, run the development server:
+- ***OBS***: *You can for only a bank, for example BBX then you can do pix to accounts at the same bank BBX, 
+or you can run with two terminals, the two containers BBX and CTER, then you can do pix transfer to a different bank*
+- ***IMPORTANT***: *If you want to run two banks here, you need to run it two `bank-api` containers!*
 
 Commands:
 ```bash
-#start your container
-docker-compose up -d
+#########################################
+# start your container
+#########################################
 
-#access your container
-docker-compose exec app bash
+#BBX:
+docker-compose -f docker-compose_bbx.yml up -d
 
-#inside of your container, run:
+#CTER:
+docker-compose -f docker-compose_cter.yml up -d
+
+#########################################
+# access your container
+#########################################
+
+#BBX:
+docker-compose exec app_bbx bash
+
+#CTER:
+docker-compose exec app_cter bash
+
+#########################################
+# inside of your containers, run:
+#########################################
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result for ***`BBX`*** bank.  
+Open [http://localhost:3002](http://localhost:3002) with your browser to see the result for ***`CTER`*** bank.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
