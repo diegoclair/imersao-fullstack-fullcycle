@@ -22,6 +22,6 @@ Em todos os sistemas operacionais é necessário abrir o programa para editar o 
 Execute os comandos:
 
 ```
-docker-compose up
+docker-compose down && docker-compose up
 ```
-***Importante***: Toda vez que para-lo de rodar, rode ```docker-compose down``` para destruir os volumes, senão ao rodar um UP novamente dará erro
+***Importante***: ```docker-compose down``` é para destruir os volumes anteriores, é necessário senão para não dar erro ao subir o container novamente 

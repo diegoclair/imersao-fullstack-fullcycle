@@ -4,7 +4,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+Commands:
 ```bash
+#start your container
+docker-compose up -d
+
+#access your container
+docker-compose exec app bash
+
+#inside of your container, run:
 npm run dev
 # or
 yarn dev
