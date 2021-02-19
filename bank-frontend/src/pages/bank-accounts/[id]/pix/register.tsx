@@ -35,6 +35,7 @@ const PixRegister: React.FC<PixRegisterProps> = (props) => {
             });
             push(`/bank-accounts/${id}`)
         } catch (err) {
+            console.error(err);
             Modal.fire({
                 title: 'Ocorreu um erro. Verifique o console',
                 icon: 'error'
