@@ -16,3 +16,7 @@ create-model:
 create-controller:
 	echo "creating controller for $${name:?please, you need to pass the controller name like name=controller_name \$$name}"
 	nest generate controller controllers/${name}
+
+create-service:
+	echo "creating service for $${name:?please, you need to pass the service name like name=service_name \$$name}"
+	nest generate service subscribers/${name}
