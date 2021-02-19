@@ -27,7 +27,7 @@ const TransactionRegister: NextPage<Props> = () => {
 
             await bankHttp.post(`/bank-accounts/${id}/transactions`, {
                 ...data,
-                amout: new Number(data.amount),
+                amount: new Number(data.amount),
             });
             Modal.fire({
                 title: `Transação realizada com sucesso!`,
