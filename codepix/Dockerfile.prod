@@ -19,6 +19,6 @@ RUN apt-get update && \
 
 COPY . .
 
-RUN GOOS=linux go build -ldflags="-s -w" -o codepix
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o codepix
 
 ENTRYPOINT [ "./codepix" ]
