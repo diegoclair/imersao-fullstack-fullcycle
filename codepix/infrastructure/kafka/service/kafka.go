@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/util/config"
 )
 
 //KafkaService holds kafka service functions

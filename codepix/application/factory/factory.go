@@ -7,8 +7,8 @@ import (
 	"github.com/IQ-tech/go-mapper"
 	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain/service"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
 	"github.com/diegoclair/imersao/codepix/infrastructure/data"
+	"github.com/diegoclair/imersao/codepix/util/config"
 )
 
 //Services is the factory to all serrvices

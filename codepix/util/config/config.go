@@ -63,7 +63,7 @@ func GetConfigEnvironment() *EnvironmentVariables {
 		config.Kafka.BootstrapServers = viper.GetString("KAFKA_BOOTSTRAP_SERVERS")
 		config.Kafka.ConsumerGroupID = viper.GetString("KAFKA_CONSUMER_GROUP_ID")
 		config.Kafka.TransactionTopic = viper.GetString("KAFKA_TRANSACTION_TOPIC")
-		config.Kafka.TransactionConfirmationTopic = viper.GetString("KAFKA_TRANSACTION_CONFIRMATIONTOPIC")
+		config.Kafka.TransactionConfirmationTopic = viper.GetString("KAFKA_TRANSACTION_CONFIRMATION_TOPIC")
 
 	})
 	return config

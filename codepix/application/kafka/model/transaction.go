@@ -3,7 +3,7 @@ package model
 import (
 	"encoding/json"
 
-	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
+	"github.com/diegoclair/imersao/codepix/util/validate"
 )
 
 //Transaction view model
