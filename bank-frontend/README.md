@@ -24,10 +24,10 @@ docker-compose -f docker-compose_cter.yml up -d
 #########################################
 
 #BBX:
-docker-compose exec app_bbx bash
+docker exec -it imersao-next-bank-bbx bash
 
 #CTER:
-docker-compose exec app_cter bash
+docker exec -it imersao-next-bank-cter bash
 
 #########################################
 # inside of your containers, run:
