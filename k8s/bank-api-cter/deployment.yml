@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bankapi-cter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bankapi-cter
+
+  #here we put a pod template
+  template:
+    metadata:
+      labels:
+        app: bankapi-cter
+    spec:
+      containers:
+      - name : bankapi-cter
+        image: diegoclair/imersao-bankapi:latest
+        ports:
+          - containerPort: 3000
+        envFrom:
+          - secretRef: 
+              name: bankapi-cter-secret
+        
+        volumeMounts:
+          - name: bankapi-cter-conf-volume
+            mountPath: /home/node/app/.env
+            subPath: .env   #if we only use the mountPath it will create a folder .env, so we use the subPath to specify that it is a file
+
+      volumes:
+        - name: bankapi-cter-conf-volume
+          configMap:
+            name: bankapi-cter-conf
+            items:
+              - key: env
+                path: .env #here is how our config map will be mounted (it will create a .env file)
+
