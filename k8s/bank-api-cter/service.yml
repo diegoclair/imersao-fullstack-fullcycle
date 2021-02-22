@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: bankapi-cter-service
 spec:
-  type: ClusterIP
+  type: ClusterIP  #ClusterIP generate only Internal ID
   selector:
     app: bankapi-cter
   ports:

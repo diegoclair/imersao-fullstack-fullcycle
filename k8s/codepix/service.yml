@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: codepix-service
 spec:
-  type: ClusterIP
+  type: ClusterIP #ClusterIP generate only Internal ID
   selector:
     app: codepix
   ports:

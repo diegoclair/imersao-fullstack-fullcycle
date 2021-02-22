@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bank-frontend-bbx-conf
+data:
+  #we created our database with "helm bitname", after instal we receive some instructions like, how to connect(host) password and etc..
+  #here we put the same variables that we have in our .env file, but here we don`t put the password
+  env: |
+    NEXT_PUBLIC_NEST_API_URL=http://bankapi-bbx-service:3000/api
+    NEXT_PUBLIC_BANK_NAME=BBX
+    NEXT_PUBLIC_BANK_CODE=001

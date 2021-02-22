@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bank-frontend-cter-conf
+data:
+  #we created our database with "helm bitname", after instal we receive some instructions like, how to connect(host) password and etc..
+  #here we put the same variables that we have in our .env file, but here we don`t put the password
+  env: |
+    NEXT_PUBLIC_NEST_API_URL=http://bankapi-cter-service:3000/api
+    NEXT_PUBLIC_BANK_NAME=CTER
+    NEXT_PUBLIC_BANK_CODE=002

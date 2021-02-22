@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-frontend-bbx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank-frontend-bbx
+
+  #here we put a pod template
+  template:
+    metadata:
+      labels:
+        app: bank-frontend-bbx
+    spec:
+      containers:
+      - name : bank-frontend-bbx
+        image: diegoclair/imersao-bank-frontend:latest
+        ports:
+          - containerPort: 3000
+
+        volumeMounts:
+          - name: bank-frontend-bbx-conf-volume
+            mountPath: /app/.env
+            subPath: .env   #if we only use the mountPath it will create a folder .env, so we use the subPath to specify that it is a file
+
+      volumes:
+        - name: bank-frontend-bbx-conf-volume
+          configMap:
+            name: bank-frontend-bbx-conf
+            items:
+              - key: env
+                path: .env #here is how our config map will be mounted (it will create a .env file)
+

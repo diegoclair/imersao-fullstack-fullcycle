@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: bankapi-bbx-service
 spec:
-  type: ClusterIP
+  type: ClusterIP  #ClusterIP generate only Internal ID
   selector:
     app: bankapi-bbx
   ports:
