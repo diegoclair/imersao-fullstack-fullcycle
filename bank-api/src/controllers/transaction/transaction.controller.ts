@@ -74,7 +74,7 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy{
             pixKeyTypeTo: transaction.pix_key_type_to,
             description: transaction.description,
         }
-        const topic = process.env.kafkaTransactionTopic
+        const topic = process.env.KAFKA_TRANSACTION_TOPIC
 
         await this.sendMessageToKafka(topic, sendDataToKafka)
         
@@ -131,7 +131,7 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy{
             ...data,
             status: TransactionStatus.confirmed,
         }
-        const topic = process.env.kafkaTransactionConfirmationTopic
+        const topic = process.env.KAFKA_TRANSACTION_CONFIRMATION_TOPIC
         this.sendMessageToKafka(topic, sendConfirmationDataToKafka)
     }
 
@@ -158,7 +158,7 @@ export class TransactionController implements OnModuleInit, OnModuleDestroy{
             description: transaction.description,
             status: TransactionStatus.completed,
         }
-        const topic = process.env.kafkaTransactionConfirmationTopic
+        const topic = process.env.KAFKA_TRANSACTION_CONFIRMATION_TOPIC
 
         this.sendMessageToKafka(topic, sendDataToKafka)
     }
