@@ -20,12 +20,12 @@ func newTransactionService(svc *Service) contract.TransactionService {
 
 func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, description, id string, amount float64) (*entity.Transaction, error) {
 
-	account, err := s.svc.db.Postgres().Account().FindAccountByID(accountIDFrom)
+	account, err := s.svc.dm.Postgres().Account().FindAccountByID(accountIDFrom)
 	if err != nil {
 		return nil, err
 	}
 
-	pixKey, err := s.svc.db.Postgres().Pix().FindPixByKey(pixKeyTo, pixKeyKindTo)
+	pixKey, err := s.svc.dm.Postgres().Pix().FindPixByKey(pixKeyTo, pixKeyKindTo)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, des
 		return nil, err
 	}
 
-	err = s.svc.db.Postgres().Transaction().Register(transaction)
+	err = s.svc.dm.Postgres().Transaction().Register(transaction)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (s *transactionService) Register(accountIDFrom, pixKeyTo, pixKeyKindTo, des
 
 func (s *transactionService) Confirm(transactionID string) (*entity.Transaction, error) {
 
-	transaction, err := s.svc.db.Postgres().Transaction().FindByID(transactionID)
+	transaction, err := s.svc.dm.Postgres().Transaction().FindByID(transactionID)
 	if err != nil {
 		log.Println("transactionUseCase.Confirm.FindByID", err)
 		return nil, err
@@ -53,7 +53,7 @@ func (s *transactionService) Confirm(transactionID string) (*entity.Transaction,
 
 	transaction.Confirm()
 
-	err = s.svc.db.Postgres().Transaction().Save(transaction)
+	err = s.svc.dm.Postgres().Transaction().Save(transaction)
 	if err != nil {
 		log.Println("transactionUseCase.Confirm.Save", err)
 		return nil, err
@@ -64,7 +64,7 @@ func (s *transactionService) Confirm(transactionID string) (*entity.Transaction,
 
 func (s *transactionService) Complete(transactionID string) (*entity.Transaction, error) {
 
-	transaction, err := s.svc.db.Postgres().Transaction().FindByID(transactionID)
+	transaction, err := s.svc.dm.Postgres().Transaction().FindByID(transactionID)
 	if err != nil {
 		log.Println("transactionUseCase.Complete.FindByID", err)
 		return nil, err
@@ -72,7 +72,7 @@ func (s *transactionService) Complete(transactionID string) (*entity.Transaction
 
 	transaction.Complete()
 
-	err = s.svc.db.Postgres().Transaction().Save(transaction)
+	err = s.svc.dm.Postgres().Transaction().Save(transaction)
 	if err != nil {
 		log.Println("transactionUseCase.Complete.Save", err)
 		return nil, err
@@ -83,7 +83,7 @@ func (s *transactionService) Complete(transactionID string) (*entity.Transaction
 
 func (s *transactionService) Error(transactionID, reason string) (*entity.Transaction, error) {
 
-	transaction, err := s.svc.db.Postgres().Transaction().FindByID(transactionID)
+	transaction, err := s.svc.dm.Postgres().Transaction().FindByID(transactionID)
 	if err != nil {
 		log.Println("transactionUseCase.Error.FindByID", err)
 		return nil, err
@@ -91,7 +91,7 @@ func (s *transactionService) Error(transactionID, reason string) (*entity.Transa
 
 	transaction.Cancel(reason)
 
-	err = s.svc.db.Postgres().Transaction().Save(transaction)
+	err = s.svc.dm.Postgres().Transaction().Save(transaction)
 	if err != nil {
 		log.Println("transactionUseCase.Error.Save", err)
 		return nil, err

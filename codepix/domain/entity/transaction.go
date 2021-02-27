@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/diegoclair/imersao/codepix/domain"
-	"github.com/diegoclair/imersao/codepix/infrastructure/validate"
+	"github.com/diegoclair/imersao/codepix/util/validate"
 	"github.com/twinj/uuid"
 )
 

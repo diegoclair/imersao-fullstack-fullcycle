@@ -10,7 +10,7 @@ import (
 	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/util/config"
 )
 
 //KafkaProcessor holds kafka processor functions

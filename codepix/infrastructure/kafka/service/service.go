@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/diegoclair/imersao/codepix/contract"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/util/config"
 )
 
 type kafkaService struct {

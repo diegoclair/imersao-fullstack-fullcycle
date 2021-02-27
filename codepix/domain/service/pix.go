@@ -18,7 +18,7 @@ func newPixService(svc *Service) contract.PixService {
 
 func (s *pixService) RegisterKey(key, kind, accountID string) (*entity.Pix, error) {
 
-	account, err := s.svc.db.Postgres().Account().FindAccountByID(accountID)
+	account, err := s.svc.dm.Postgres().Account().FindAccountByID(accountID)
 	if err != nil {
 		return nil, err
 	}
@@ -28,9 +28,9 @@ func (s *pixService) RegisterKey(key, kind, accountID string) (*entity.Pix, erro
 		return nil, err
 	}
 
-	return s.svc.db.Postgres().Pix().AddPixKey(pix)
+	return s.svc.dm.Postgres().Pix().AddPixKey(pix)
 }
 
 func (s *pixService) FindKeyByID(key, kind string) (*entity.Pix, error) {
-	return s.svc.db.Postgres().Pix().FindPixByKey(key, kind)
+	return s.svc.dm.Postgres().Pix().FindPixByKey(key, kind)
 }

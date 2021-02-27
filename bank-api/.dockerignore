@@ -1,0 +1,7 @@
+.docker/.pgdatabbx
+.docker/.pgdatacter
+
+.dist
+.dist-bbx
+.dist-cter
+node_modules

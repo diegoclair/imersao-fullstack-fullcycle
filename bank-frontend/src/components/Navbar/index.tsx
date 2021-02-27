@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = (props) => {
                         </div>
                     </a>
                 </Link>
-                {/* This block will only by rendered if we have received bankAccount */}
+                {/* This block will only be rendered if we receive bankAccount */}
                 {bankAccount && (
                     <div className={`collapse navbar-collapse ${classes.navbarRightRoot}`} id="navbarSupportedContent">
                         <ul className={`navbar-nav ml-auto ${classes.navbarRightBody}`}>

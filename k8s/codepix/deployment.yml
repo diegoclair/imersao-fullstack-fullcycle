@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codepix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codepix
+
+  #here we put a pod template
+  template:
+    metadata:
+      labels:
+        app: codepix
+    spec:
+      containers:
+      - name : codepix
+        image: diegoclair/codepix-go
+        command: ["./codepix", "all"] #this command will replace the entrypoint command from our Dockerfile.prod
+        ports:
+          - containerPort: 50051
+        envFrom:
+          - secretRef: 
+              name: codepix-secret
+        
+        volumeMounts:
+          - name: codepix-conf-volume
+            mountPath: /go/src/.env
+            subPath: .env   #if we only use the mountPath it will create a folder .env, so we use the subPath to specify that it is a file
+
+      volumes:
+        - name: codepix-conf-volume
+          configMap:
+            name: codepix-conf
+            items:
+              - key: env
+                path: .env #here is how our config map will be mounted (it will create a .env file)
+

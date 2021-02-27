@@ -5,7 +5,7 @@ import (
 
 	"github.com/diegoclair/imersao/codepix/contract"
 	"github.com/diegoclair/imersao/codepix/domain/entity"
-	"github.com/diegoclair/imersao/codepix/infrastructure/config"
+	"github.com/diegoclair/imersao/codepix/util/config"
 	"github.com/jinzhu/gorm"
 
 	_ "github.com/lib/pq" //is a pure Go Postgres driver for the database/sql package
