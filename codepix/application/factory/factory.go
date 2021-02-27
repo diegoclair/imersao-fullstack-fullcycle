@@ -11,7 +11,7 @@ import (
 	"github.com/diegoclair/imersao/codepix/util/config"
 )
 
-//Services is the factory to all serrvices
+//Services is the factory to all services
 type Services struct {
 	Cfg                *config.EnvironmentVariables
 	Mapper             mapper.Mapper
@@ -24,7 +24,7 @@ var (
 	once     sync.Once
 )
 
-//GetDomainServices to get instace of all services
+//GetDomainServices to get instace of all domain services
 func GetDomainServices() *Services {
 	once.Do(func() {
 		data, err := data.Connect()
@@ -35,7 +35,7 @@ func GetDomainServices() *Services {
 		cfg := config.GetConfigEnvironment()
 		mapper := mapper.New()
 		svm := service.NewServiceManager()
-		svc := service.New(data)
+		svc := service.New(data, cfg)
 
 		instance = &Services{
 			Cfg:                cfg,

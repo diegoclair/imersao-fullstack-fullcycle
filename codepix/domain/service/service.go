@@ -1,16 +1,21 @@
 package service
 
-import "github.com/diegoclair/imersao/codepix/contract"
+import (
+	"github.com/diegoclair/imersao/codepix/contract"
+	"github.com/diegoclair/imersao/codepix/util/config"
+)
 
 // Service holds the domain service repositories
 type Service struct {
-	dm contract.DataManager
+	dm  contract.DataManager
+	cfg *config.EnvironmentVariables
 }
 
 // New returns a new domain Service instance
-func New(dm contract.DataManager) *Service {
+func New(dm contract.DataManager, cfg *config.EnvironmentVariables) *Service {
 	svc := new(Service)
 	svc.dm = dm
+	svc.cfg = cfg
 
 	return svc
 }
