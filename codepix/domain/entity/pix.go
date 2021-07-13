@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Nhanderu/brdoc"
 	"github.com/diegoclair/imersao/codepix/domain"
 	"github.com/diegoclair/imersao/codepix/util/validate"
+	"github.com/paemuri/brdoc"
 
 	"github.com/twinj/uuid"
 )

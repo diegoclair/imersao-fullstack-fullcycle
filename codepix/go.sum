@@ -18,8 +18,6 @@ github.com/IQ-tech/go-errors v0.1.0 h1:C320GMu9xuiqNnjuOle/FeNWjndvH8nZTpOCDej/y
 github.com/IQ-tech/go-errors v0.1.0/go.mod h1:qgv1mXc6/4Tq7Zln30l/BrZjvTpzBNB40nPh55xr4V4=
 github.com/IQ-tech/go-mapper v1.0.5 h1:h/Srshcq8Hys0AG4T7j5u4QL719H7DWXQyDJ68XHqug=
 github.com/IQ-tech/go-mapper v1.0.5/go.mod h1:kqfQFTJdx+etacUd98R7yMCwsk4tFMrK9xOr/sU0ZFY=
-github.com/Nhanderu/brdoc v1.1.2 h1:8omuNpCC+9FLhsATdigQxFyhed7sb2TVyJLVxUFDjWg=
-github.com/Nhanderu/brdoc v1.1.2/go.mod h1:UQQw7zlNjQJFSGooYd+uq6QqLQ2G6jAHVaeGAXUgUlk=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
@@ -195,6 +193,8 @@ github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRW
 github.com/myesui/uuid v1.0.0 h1:xCBmH4l5KuvLYc5L7AS7SZg9/jKdIFubM7OVoLqaQUI=
 github.com/myesui/uuid v1.0.0/go.mod h1:2CDfNgU0LR8mIdO8vdWd8i9gWWxLlcoIGGpSNgafq84=
 github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn4U=
+github.com/paemuri/brdoc v1.1.2 h1:jl3opOVRVvVr+ubc9DpzENe/d1uuYLNac4V1h7Jul/c=
+github.com/paemuri/brdoc v1.1.2/go.mod h1:M0bbCy1qPGG0xou2ahCNXAntlkZ3Tl0w7NlC1v5fiZc=
 github.com/pascaldekloe/goe v0.0.0-20180627143212-57f6aae5913c/go.mod h1:lzWF7FIEvWOWxwDKqyGYQf6ZUaNfKdP144TG7ZOy1lc=
 github.com/pelletier/go-toml v1.2.0 h1:T5zMGML61Wp+FlcbWjRDT7yAxhJNAiPPLOFECq181zc=
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=

@@ -4,7 +4,6 @@ go 1.15
 
 require (
 	github.com/IQ-tech/go-mapper v1.0.5
-	github.com/Nhanderu/brdoc v1.1.2
 	github.com/confluentinc/confluent-kafka-go v1.5.2
 	github.com/diegoclair/go_utils-lib/v2 v2.3.1
 	github.com/golang/protobuf v1.4.3
@@ -12,6 +11,7 @@ require (
 	github.com/lib/pq v1.9.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/myesui/uuid v1.0.0 // indirect
+	github.com/paemuri/brdoc v1.1.2
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/cast v1.3.1 // indirect
 	github.com/spf13/cobra v1.1.1
